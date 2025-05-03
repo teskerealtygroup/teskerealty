@@ -24,23 +24,25 @@
             left: 0;
             width: 100%;
             background: #c00;
-            padding: 10px 20px 10px 0; /* No left padding */
+            padding: 0 20px 0 0; /* Zero left padding */
             display: flex;
             align-items: center;
             justify-content: space-between;
             z-index: 1000;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             height: 80px; /* Standard banner height */
+            margin: 0; /* Ensure no margin */
         }
 
         .logo {
             width: 600px; /* Confirmed correct size */
             height: 180px;
             object-fit: contain; /* Scales without distortion */
-            margin: 0;
-            padding-left: 0;
+            margin: 0; /* No margins */
+            padding: 0; /* No padding */
             position: absolute; /* Pin to left edge */
             left: 0;
+            box-sizing: border-box;
         }
 
         /* Site Menu (Tabs) */
@@ -234,7 +236,7 @@
             }
 
             .banner {
-                padding: 10px 15px 10px 0; /* No left padding */
+                padding: 0 15px 0 0; /* Zero left padding */
                 height: 70px;
             }
 
@@ -243,13 +245,10 @@
                 height: 150px;
                 object-fit: contain;
                 margin: 0;
-                padding-left: 0;
+                padding: 0;
                 position: absolute;
                 left: 0;
-            }
-
-            .site-menu {
-                margin-left: 0; /* No offset needed for mobile */
+                box-sizing: border-box;
             }
 
             #home {
@@ -289,14 +288,14 @@
 
     <!-- Home Section -->
     <section id="home">
-        <h1>Teske Realty Group</h1>
+        <h1>Teske Realty</h1>
         <p>Luxury Condominiums</p>
     </section>
 
     <!-- About Section -->
     <section id="about">
         <h2>About Us</h2>
-        <p>Teske Realty Group specializes in luxury condominiums and property management across California, Arizona, and Wisconsin. Our mission is to provide unparalleled living experiences through innovative design, premium amenities, exceptional service, and expert property management solutions. Discover your dream home with us.</p>
+        <p>Teske Realty specializes in luxury condominiums and property management across California, Arizona, and Wisconsin. Our mission is to provide unparalleled living experiences through innovative design, premium amenities, exceptional service, and expert property management solutions. Discover your dream home with us.</p>
     </section>
 
     <!-- Contact Section -->
