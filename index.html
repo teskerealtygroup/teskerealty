@@ -32,15 +32,10 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
 
-        .logo-placeholder {
+        .logo {
             width: 200px;
             height: 60px;
-            background: #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-size: 1.2em;
+            object-fit: contain; /* Ensures logo scales without distortion */
         }
 
         /* Site Menu (Tabs) */
@@ -236,10 +231,10 @@
                 padding: 15px;
             }
 
-            .logo-placeholder {
+            .logo {
                 width: 150px;
                 height: 50px;
-                font-size: 1em;
+                object-fit: contain;
             }
 
             #home h1 {
@@ -255,7 +250,7 @@
 <body>
     <!-- Banner (Header) -->
     <header class="banner">
-        <div class="logo-placeholder">Logo & Title Placeholder</div>
+        <img src="redfox (3).png" alt="Teske Reality Logo" class="logo">
         <div class="site-menu">
             <a href="#home">Home</a>
             <a href="#about">About</a>
