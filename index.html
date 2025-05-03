@@ -17,24 +17,24 @@
             color: #fff;
         }
 
-        /* Banner */
+        /* Banner (Header) */
         .banner {
-            height: 100vh;
-            background: linear-gradient(to bottom, #c00, #1a1a1a);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #c00;
+            padding: 20px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
 
         .logo-placeholder {
-            position: absolute;
-            top: 20px;
-            left: 20px;
             width: 200px;
-            height: 100px;
+            height: 60px;
             background: #ccc;
             display: flex;
             align-items: center;
@@ -43,36 +43,23 @@
             font-size: 1.2em;
         }
 
-        .banner h1 {
-            font-size: 4em;
-            color: #fff;
-            text-shadow: 2px 2px 4px #000;
-        }
-
-        .banner p {
-            font-size: 1.5em;
-            color: #ccc;
-            margin-bottom: 20px;
-        }
-
         /* Site Menu (Tabs) */
         .site-menu {
             display: flex;
-            gap: 30px;
+            gap: 20px;
         }
 
         .site-menu a {
             color: #fff;
             text-decoration: none;
-            font-size: 1.2em;
-            padding: 10px 20px;
-            background: #333;
+            font-size: 1.1em;
+            padding: 10px 15px;
             border-radius: 5px;
             transition: background 0.3s, color 0.3s;
         }
 
         .site-menu a:hover {
-            background: #c00;
+            background: #333;
             color: #ccc;
         }
 
@@ -81,10 +68,7 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
+            z-index: 1001;
         }
 
         .hamburger span {
@@ -134,6 +118,22 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+        }
+
+        #home {
+            background: linear-gradient(to bottom, #c00, #1a1a1a);
+            margin-top: 80px; /* Offset for fixed banner */
+        }
+
+        #home h1 {
+            font-size: 4em;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        #home p {
+            font-size: 1.5em;
+            color: #ccc;
         }
 
         #about {
@@ -232,47 +232,51 @@
                 display: flex;
             }
 
-            .banner h1 {
-                font-size: 2.5em;
-            }
-
-            .banner p {
-                font-size: 1.2em;
+            .banner {
+                padding: 15px;
             }
 
             .logo-placeholder {
                 width: 150px;
-                height: 80px;
+                height: 50px;
                 font-size: 1em;
+            }
+
+            #home h1 {
+                font-size: 2.5em;
+            }
+
+            #home p {
+                font-size: 1.2em;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Hamburger Menu (Mobile) -->
-    <div class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+    <!-- Banner (Header) -->
+    <header class="banner">
+        <div class="logo-placeholder">Logo & Title Placeholder</div>
+        <div class="site-menu">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
     <nav class="nav-menu">
         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
     </nav>
 
-    <!-- Banner (Home Section) -->
-    <section id="home" class="banner">
-        <div class="logo-placeholder">Logo & Title Placeholder</div>
-        <div>
-            <h1>Teske Realty Group</h1>
-            <p>Luxury Condominiums</p>
-            <div class="site-menu">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </div>
-        </div>
+    <!-- Home Section -->
+    <section id="home">
+        <h1>Teske Realty Group</h1>
+        <p>Luxury Condominiums</p>
     </section>
 
     <!-- About Section -->
