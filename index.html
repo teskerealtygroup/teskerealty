@@ -24,7 +24,7 @@
             left: 0;
             width: 100%;
             background: #c00;
-            padding: 10px 20px; /* Reduced padding for standard height */
+            padding: 10px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -34,10 +34,12 @@
         }
 
         .logo {
-            width: 200px; /* Normal size for desktop */
-            height: 60px;
-            object-fit: contain; /* Ensures logo scales without distortion */
-            margin-left: 10px; /* Nudge left for alignment */
+            width: 300px; /* Larger but reasonable size */
+            height: 90px;
+            object-fit: contain; /* Scales without distortion */
+            margin-left: 0; /* Flush left */
+            position: relative;
+            left: -10px; /* Slight nudge to ensure flush alignment */
         }
 
         /* Site Menu (Tabs) */
@@ -231,18 +233,20 @@
 
             .banner {
                 padding: 10px 15px;
-                height: 70px; /* Slightly smaller for mobile */
+                height: 70px; /* Standard mobile banner */
             }
 
             .logo {
-                width: 150px; /* Normal size for mobile */
-                height: 50px;
+                width: 250px; /* Larger but reasonable for mobile */
+                height: 75px;
                 object-fit: contain;
-                margin-left: 10px; /* Consistent nudge left */
+                margin-left: 0;
+                position: relative;
+                left: -10px; /* Flush left */
             }
 
             #home {
-                margin-top: 70px; /* Matches mobile banner height */
+                margin-top: 70px; /* Matches mobile banner */
             }
 
             #home h1 {
