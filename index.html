@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teske Reality - Luxury Condominiums</title>
+    <title>Teske Realty Group - Luxury Condominiums</title>
     <style>
         * {
             margin: 0;
@@ -15,6 +15,65 @@
         body {
             background-color: #1a1a1a;
             color: #fff;
+        }
+
+        /* Banner */
+        .banner {
+            height: 100vh;
+            background: linear-gradient(to bottom, #c00, #1a1a1a);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo-placeholder {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 200px;
+            height: 100px;
+            background: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.2em;
+        }
+
+        .banner h1 {
+            font-size: 4em;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .banner p {
+            font-size: 1.5em;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        /* Site Menu (Tabs) */
+        .site-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .site-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            background: #333;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .site-menu a:hover {
+            background: #c00;
+            color: #ccc;
         }
 
         /* Hamburger Menu */
@@ -63,42 +122,6 @@
         }
 
         .nav-menu a:hover {
-            color: #ccc;
-        }
-
-        /* Banner */
-        .banner {
-            height: 100vh;
-            background: linear-gradient(to bottom, #c00, #1a1a1a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-        }
-
-        .logo-placeholder {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 200px;
-            height: 100px;
-            background: #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-size: 1.2em;
-        }
-
-        .banner h1 {
-            font-size: 4em;
-            color: #fff;
-            text-shadow: 2px 2px 4px #000;
-        }
-
-        .banner p {
-            font-size: 1.5em;
             color: #ccc;
         }
 
@@ -197,6 +220,10 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .site-menu {
+                display: none;
+            }
+
             .hamburger {
                 display: flex;
             }
@@ -212,11 +239,17 @@
             .banner p {
                 font-size: 1.2em;
             }
+
+            .logo-placeholder {
+                width: 150px;
+                height: 80px;
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Hamburger Menu -->
+    <!-- Hamburger Menu (Mobile) -->
     <div class="hamburger">
         <span></span>
         <span></span>
@@ -234,13 +267,18 @@
         <div>
             <h1>Teske Reality</h1>
             <p>Luxury Condominiums</p>
+            <div class="site-menu">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about">
         <h2>About Us</h2>
-        <p>Teske Reality specializes in luxury condominiums across California, Arizona, and Wisconsin. Our mission is to provide unparalleled living experiences through innovative design, premium amenities, and exceptional service. Discover your dream home with us.</p>
+        <p>Teske Realty Group specializes in luxury condominiums and property management across California, Arizona, and Wisconsin. Our mission is to provide unparalleled living experiences through innovative design, premium amenities, exceptional service, and expert property management solutions. Discover your dream home with us.</p>
     </section>
 
     <!-- Contact Section -->
