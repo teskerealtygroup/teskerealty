@@ -34,16 +34,20 @@
         }
 
         .logo {
-            width: 600px; /* Correct size as confirmed */
+            width: 600px; /* Confirmed correct size */
             height: 180px;
             object-fit: contain; /* Scales without distortion */
-            margin: 0; /* Flush left, no margins */
+            margin: 0;
+            padding-left: 0;
+            position: absolute; /* Pin to left edge */
+            left: 0;
         }
 
         /* Site Menu (Tabs) */
         .site-menu {
             display: flex;
             gap: 20px;
+            margin-left: 620px; /* Offset for logo width */
         }
 
         .site-menu a {
@@ -235,10 +239,17 @@
             }
 
             .logo {
-                width: 500px; /* Correct mobile size */
+                width: 500px; /* Confirmed correct mobile size */
                 height: 150px;
                 object-fit: contain;
-                margin: 0; /* Flush left */
+                margin: 0;
+                padding-left: 0;
+                position: absolute;
+                left: 0;
+            }
+
+            .site-menu {
+                margin-left: 0; /* No offset needed for mobile */
             }
 
             #home {
@@ -278,14 +289,14 @@
 
     <!-- Home Section -->
     <section id="home">
-        <h1>Teske Realty</h1>
+        <h1>Teske Realty Group</h1>
         <p>Luxury Condominiums</p>
     </section>
 
     <!-- About Section -->
     <section id="about">
         <h2>About Us</h2>
-        <p>Teske Realty specializes in luxury condominiums and property management across California, Arizona, and Wisconsin. Our mission is to provide unparalleled living experiences through innovative design, premium amenities, exceptional service, and expert property management solutions. Discover your dream home with us.</p>
+        <p>Teske Realty Group specializes in luxury condominiums and property management across California, Arizona, and Wisconsin. Our mission is to provide unparalleled living experiences through innovative design, premium amenities, exceptional service, and expert property management solutions. Discover your dream home with us.</p>
     </section>
 
     <!-- Contact Section -->
