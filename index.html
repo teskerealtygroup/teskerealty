@@ -24,7 +24,7 @@
             left: 0;
             width: 100%;
             background: #c00;
-            padding: 10px 20px 10px 0; /* Removed left padding for flush logo */
+            padding: 10px 20px 10px 0; /* No left padding */
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -34,12 +34,10 @@
         }
 
         .logo {
-            width: 600px; /* 2x larger than current */
+            width: 600px; /* Correct size as confirmed */
             height: 180px;
             object-fit: contain; /* Scales without distortion */
-            margin-left: 0; /* Flush left */
-            position: relative;
-            left: 0; /* Ensure no right nudge */
+            margin: 0; /* Flush left, no margins */
         }
 
         /* Site Menu (Tabs) */
@@ -237,12 +235,10 @@
             }
 
             .logo {
-                width: 500px; /* 2x larger than current mobile */
+                width: 500px; /* Correct mobile size */
                 height: 150px;
                 object-fit: contain;
-                margin-left: 0;
-                position: relative;
-                left: 0;
+                margin: 0; /* Flush left */
             }
 
             #home {
