@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teske Realty Group - Luxury Condominiums</title>
+    <title>Teske Realty - Luxury Condominiums</title>
     <style>
         * {
             margin: 0;
@@ -29,7 +29,7 @@
             background: #c00;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start; /* Align logo left */
             z-index: 1000;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             padding: 0;
@@ -49,7 +49,7 @@
         .site-menu {
             display: flex;
             gap: 20px;
-            margin: 0;
+            margin-left: auto; /* Push to right */
             padding-right: 20px; /* Flush right with slight padding */
         }
 
@@ -73,6 +73,7 @@
             flex-direction: column;
             cursor: pointer;
             z-index: 1001;
+            margin-left: auto;
             padding-right: 15px;
         }
 
@@ -242,6 +243,7 @@
             .banner {
                 height: 70px;
                 padding: 0;
+                justify-content: flex-start;
             }
 
             .logo {
