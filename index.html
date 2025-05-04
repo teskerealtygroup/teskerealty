@@ -17,6 +17,7 @@
             color: #000;
         }
 
+        /* Banner with lighter black and enhanced shine */
         .banner {
             position: fixed;
             top: 0;
@@ -30,6 +31,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
         }
 
+        /* Logo styling with z-index to prevent overlap */
         .logo {
             position: absolute;
             left: -175px;
@@ -41,6 +43,7 @@
             margin: 0;
             padding: 0;
             margin-left: -200px;
+            z-index: 1001; /* Ensures logo is above banner */
         }
 
         .site-menu {
@@ -244,6 +247,7 @@
                 margin: 0;
                 padding: 0;
                 margin-left: -200px;
+                z-index: 1001; /* Ensures logo is above banner on mobile */
             }
 
             #home {
@@ -261,6 +265,7 @@
     </style>
 </head>
 <body>
+    <!-- Header with logo, ensured to be visible -->
     <header class="banner">
         <img src="redfox (3).png" alt="Teske Realty Logo" class="logo">
         <div class="site-menu">
@@ -338,5 +343,6 @@
             });
         });
     </script>
+    <!-- Cache bust v17 -->
 </body>
 </html>
