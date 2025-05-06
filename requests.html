@@ -32,7 +32,7 @@
 
         .logo {
             position: absolute;
-            left: -175px;
+            left: -175;
             top: 0;
             width: 600px;
             height: 180px;
@@ -41,6 +41,7 @@
             margin: 0;
             padding: 0;
             margin-left: -200px;
+            z-index: 1001;
         }
 
         .site-menu {
@@ -123,20 +124,21 @@
         }
 
         #requests {
-            background: #333;
+            background: linear-gradient(170deg, #c00 15%, #1a1a1a 85%), repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 4px);
             margin-top: 80px;
         }
 
         h2 {
-            font-size: 2.5em;
+            font-size: 3em; /* Matches management.html */
             margin-bottom: 20px;
-            color: #c00;
+            color: #fff; /* Matches theme */
         }
 
         p {
-            font-size: 1.2em;
+            font-size: 1.4em; /* Matches management.html */
             max-width: 800px;
             color: #ccc;
+            margin-bottom: 20px;
         }
 
         .repair-form {
@@ -157,7 +159,7 @@
             padding: 15px;
             border: none;
             background: #333;
-            color: #fff;
+            color: #fff; /* Matches theme */
             font-size: 1em;
             border-radius: 5px;
         }
@@ -184,34 +186,63 @@
         }
 
         .signature {
-            font-size: 1.5em;
-            color: #c00;
+            font-size: 1.8em; /* Matches management.html */
+            color: #fff; /* Matches theme */
             margin-top: 40px;
             font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
 
-        #footer {
-            background: #c00;
-            min-height: 20vh;
+        footer.footer {
+            background: linear-gradient(to bottom, #c00, #a00);
+            padding: 40px 20px;
+            color: #fff;
+            border-top: 1px solid #fff;
         }
 
-        .social-placeholder {
+        .footer-container {
             display: flex;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
             gap: 20px;
-            margin-top: 20px;
         }
 
-        .social-placeholder a {
-            width: 50px;
-            height: 50px;
-            background: #ccc;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            text-decoration: none;
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            text-align: left;
+        }
+
+        .footer-section h3 {
             font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .footer-section p, .footer-section a {
+            font-size: 1em;
+            color: #ccc;
+            margin: 5px 0;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-section.social-links a {
+            display: block;
+            color: #fff;
+        }
+
+        .footer-section.legal-links a {
+            color: #fff; /* White for visibility */
+        }
+
+        .footer-section.legal-links a:hover {
+            color: #ccc;
         }
 
         @media (max-width: 768px) {
@@ -229,7 +260,7 @@
 
             .logo {
                 position: absolute;
-                left: -175px;
+                left: 0;
                 top: 0;
                 width: 500px;
                 height: 150px;
@@ -237,7 +268,7 @@
                 max-height: 70px;
                 margin: 0;
                 padding: 0;
-                margin-left: -200px;
+                z-index: 1001;
             }
 
             #requests {
@@ -246,6 +277,25 @@
 
             .repair-form {
                 padding: 15px;
+            }
+
+            h2 {
+                font-size: 2.5em;
+            }
+
+            p {
+                font-size: 1.2em;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .footer-section {
+                text-align: center;
             }
         }
     </style>
@@ -258,7 +308,7 @@
             <a href="index.html#about">About</a>
             <a href="properties.html">Properties</a>
             <a href="management.html">Management</a>
-            <a href="requests.html">Repair Requests</a>
+            <a href="requests.html">Repair Request</a>
             <a href="index.html#contact">Contact</a>
         </div>
         <div class="hamburger">
@@ -272,7 +322,7 @@
         <a href="index.html#about">About</a>
         <a href="properties.html">Properties</a>
         <a href="management.html">Management</a>
-        <a href="requests.html">Repair Requests</a>
+        <a href="requests.html">Repair Request</a>
         <a href="index.html#contact">Contact</a>
     </nav>
 
@@ -297,14 +347,27 @@
         <div class="signature">Teske Realty Group</div>
     </section>
 
-    <section id="footer">
-        <h2>Follow Us</h2>
-        <div class="social-placeholder">
-            <a href="#">X</a>
-            <a href="#">IG</a>
-            <a href="#">FB</a>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section company-info">
+                <h3>Teske Realty Group</h3>
+                <p>Phoenix | Los Angeles | Madison</p>
+                <p>support@teskerealty.com</p>
+                <p>© 2025 Teske Realty Group LLC. All rights reserved.</p>
+            </div>
+            <div class="footer-section social-links">
+                <h3>Connect With Us</h3>
+                <a href="#">X</a>
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+            </div>
+            <div class="footer-section legal-links">
+                <h3>Legal</h3>
+                <a href="#faq" class="legal-red">FAQ</a>
+                <a href="#terms" class="legal-red">Terms of Use</a>
+            </div>
         </div>
-    </section>
+    </footer>
 
     <script>
         const hamburger = document.querySelector('.hamburger');
@@ -329,5 +392,6 @@
             });
         });
     </script>
+    <!-- Cache bust v1 -->
 </body>
 </html>
