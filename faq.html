@@ -1,1 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teske Realty Group - FAQ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
+        body {
+            background-color: #1a1a1a;
+            color: #000;
+        }
+
+        .banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            position: absolute;
+            left: -175;
+            top: 0;
+            width: 600px;
+            height: 180px;
+            object-fit: contain;
+            max-height: 80px;
+            margin: 0;
+            padding: 0;
+            margin-left: -200px;
+            z-index: 1001;
+        }
+
+        .site-menu {
+            display: flex;
+            gap: 20px;
+            margin-left: auto;
+            padding-right: 20px;
+        }
+
+        .site-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .site-menu a:hover {
+            background: #333;
+            color: #ccc;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+            margin-left: auto;
+            padding-right: 15px;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: #fff;
+            margin: 3px 0;
+            transition: all 0.3s;
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100%;
+            background: #c00;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: right 0.3s;
+            z-index: 999;
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5em;
+            margin: 20px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ccc;
+        }
+
+        section {
+            padding: 60px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #faq {
+            background: linear-gradient(180deg, #b00 15%, #1a1a1a 85%), repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 4px);
+            margin-top: 80px;
+        }
+
+        h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #fff;
+            transition: transform 0.3s;
+        }
+
+        h2:hover {
+            transform: scale(1.05); /* Cool hover effect */
+        }
+
+        p {
+            font-size: 1.4em;
+            max-width: 800px;
+            color: #ccc;
+            margin: 0 auto 20px;
+        }
+
+        .faq-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: left;
+            background: rgba(26, 26, 26, 0.8); /* Semi-transparent for contrast */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        details {
+            margin: 20px 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        summary {
+            font-size: 1.6em;
+            color: #fff;
+            padding: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+            position: relative;
+            padding-left: 35px;
+        }
+
+        summary:before {
+            content: '❓'; /* Icon for flair */
+            position: absolute;
+            left: 10px;
+            color: #c00;
+        }
+
+        summary:hover {
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        details p {
+            font-size: 1.2em;
+            color: #ccc;
+            padding: 15px;
+            margin: 0;
+        }
+
+        .signature {
+            font-size: 1.8em;
+            color: #fff;
+            margin-top: 40px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        footer.footer {
+            background: linear-gradient(to bottom, #c00, #a00);
+            padding: 40px 20px;
+            color: #fff;
+            border-top: 1px solid #fff;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            text-align: left;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .footer-section p, .footer-section a {
+            font-size: 1em;
+            color: #ccc;
+            margin: 5px 0;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-section.social-links a {
+            display: block;
+            color: #fff;
+        }
+
+        .footer-section.legal-links a {
+            color: #fff;
+        }
+
+        .footer-section.legal-links a:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .site-menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .banner {
+                height: 70px;
+            }
+
+            .logo {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 500px;
+                height: 150px;
+                object-fit: contain;
+                max-height: 70px;
+                margin: 0;
+                padding: 0;
+                z-index: 1001;
+            }
+
+            #faq {
+                margin-top: 70px;
+            }
+
+            .faq-container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 2.5em;
+            }
+
+            p {
+                font-size: 1.2em;
+            }
+
+            summary {
+                font-size: 1.4em;
+                padding-left: 30px;
+            }
+
+            details p {
+                font-size: 1.1em;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .footer-section {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="banner">
+        <img src="redfox (3).png" alt="Teske Realty Group Logo" class="logo">
+        <div class="site-menu">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="properties.html">Properties</a>
+            <a href="management.html">Management</a>
+            <a href="requests.html">Repair Request</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+    <nav class="nav-menu">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="properties.html">Properties</a>
+        <a href="management.html">Management</a>
+        <a href="requests.html">Repair Request</a>
+        <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <section id="faq">
+        <h2>Frequently Asked Questions</h2>
+        <p>At Teske Realty Group, we’re committed to making property ownership effortless. Explore our FAQs to learn more about our listing and management services, designed with your success in mind.</p>
+        <div class="faq-container">
+            <details>
+                <summary>What does the $200 property listing fee include?</summary>
+                <p>Our $200 one-time fee covers professional HD photography, listings on 5+ premium platforms (e.g., Zillow, Apartments.com), custom rental agreements compliant with local laws, tenant credit and background checks, and property showings handled by our team.</p>
+            </details>
+            <details>
+                <summary>How does the $100/month management fee work?</summary>
+                <p>Our flat $100/month fee includes rent collection through our secure online portal with direct deposits, management of rental agreements (new or edits), handling repair requests via our dedicated portal, and enforcing late fees for timely payments, all with no hidden costs.</p>
+            </details>
+            <details>
+                <summary>How quickly can you list and rent my property?</summary>
+                <p>With our professional photography and listings on multiple platforms, most properties are rented within 2–4 weeks, depending on market conditions and property specifics.</p>
+            </details>
+            <details>
+                <summary>Do you handle tenant screening?</summary>
+                <p>Yes, we conduct thorough credit and background checks on all applicants to ensure reliable tenants. This is included in the $200 listing fee at no extra cost.</p>
+            </details>
+            <details>
+                <summary>How are repair requests processed?</summary>
+                <p>Tenants submit repair requests through our online portal. Our team responds promptly, coordinates repairs, and bills tenants for out-of-pocket costs when applicable, ensuring seamless maintenance.</p>
+            </details>
+            <details>
+                <summary>Can I opt out of marketing emails after submitting a contact form?</summary>
+                <p>Absolutely, all marketing emails include an unsubscribe link. You can opt out at any time while we continue to address your inquiries or requests.</p>
+            </details>
+            <details>
+                <summary>What happens if a tenant doesn’t pay rent on time?</summary>
+                <p>We enforce strict late fees after the 5th of the month to ensure consistent cash flow. Our team handles all tenant communication on your behalf, keeping you informed.</p>
+            </details>
+            <details>
+                <summary>Are your services compliant with local laws?</summary>
+                <p>Yes, our rental agreements and listing practices are fully compliant with local and state real estate laws in California, Arizona, and Wisconsin, ensuring legal protection for you and your tenants.</p>
+            </details>
+            <details>
+                <summary>Can you manage properties I own in multiple states?</summary>
+                <p>Yes, we provide seamless management and listing services across California, Arizona, and Wisconsin, tailored to each state’s regulations for consistent, high-quality service.</p>
+            </details>
+            <details>
+                <summary>How do I get started with your services?</summary>
+                <p>Contact us via our website’s <a href="index.html#contact">contact form</a> or email <a href="mailto:support@teskerealty.com">support@teskerealty.com</a>. We’ll discuss your needs and guide you through the process to start listing or managing your property.</p>
+            </details>
+        </div>
+        <div class="signature">Teske Realty Group</div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section company-info">
+                <h3>Teske Realty Group</h3>
+                <p>Phoenix | Los Angeles | Madison</p>
+                <p>support@teskerealty.com</p>
+                <p>© 2025 Teske Realty Group LLC. All rights reserved.</p>
+            </div>
+            <div class="footer-section social-links">
+                <h3>Connect With Us</h3>
+                <a href="#">X</a>
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+            </div>
+            <div class="footer-section legal-links">
+                <h3>Legal</h3>
+                <a href="termsofuse.html">Terms of Use</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    <!-- Cache bust v1 -->
+</body>
+</html>
