@@ -31,7 +31,7 @@
         }
 
         .logo {
-            position: absolute;
+            position: relative; /* Changed to prevent clipping */
             left: -175px;
             top: 0;
             width: 600px;
@@ -41,7 +41,7 @@
             margin: 0;
             padding: 0;
             margin-left: -200px;
-            z-index: 1001; /* Prevents banner overlap */
+            z-index: 1002; /* Increased to ensure visibility */
         }
 
         .site-menu {
@@ -158,19 +158,19 @@
 
         #about {
             background: linear-gradient(to bottom, #000, #1a1a1a);
-            min-height: 120vh; /* Increased for longer content */
+            min-height: 120vh;
         }
 
         #about h2 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            color: #d3d3d3; /* Gray title */
+            color: #d3d3d3;
         }
 
         #about p {
             font-size: 1.2em;
             max-width: 800px;
-            color: #fff; /* White text for legibility */
+            color: #fff;
         }
 
         #contact {
@@ -302,7 +302,7 @@
             }
 
             .logo {
-                position: absolute;
+                position: relative;
                 left: -175px;
                 top: 0;
                 width: 500px;
@@ -312,7 +312,7 @@
                 margin: 0;
                 padding: 0;
                 margin-left: -200px;
-                z-index: 1001;
+                z-index: 1002;
             }
 
             #home {
@@ -328,7 +328,7 @@
             }
 
             #about {
-                min-height: 140vh; /* Adjusted for mobile */
+                min-height: 140vh;
             }
 
             .footer-content {
@@ -432,6 +432,6 @@
             });
         });
     </script>
-    <!-- Cache bust v20 -->
+    <!-- Cache bust v21 -->
 </body>
 </html>
