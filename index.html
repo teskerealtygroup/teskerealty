@@ -31,8 +31,8 @@
         }
 
         .logo {
-            position: relative; /* Changed to prevent clipping */
-            left: -175px;
+            position: absolute; /* Restored from original */
+            left: -175px; /* Fixed syntax */
             top: 0;
             width: 600px;
             height: 180px;
@@ -41,7 +41,6 @@
             margin: 0;
             padding: 0;
             margin-left: -200px;
-            z-index: 1002; /* Increased to ensure visibility */
         }
 
         .site-menu {
@@ -302,8 +301,8 @@
             }
 
             .logo {
-                position: relative;
-                left: -175px;
+                position: absolute; /* Restored from original */
+                left: 0; /* Matches original mobile */
                 top: 0;
                 width: 500px;
                 height: 150px;
@@ -311,8 +310,6 @@
                 max-height: 70px;
                 margin: 0;
                 padding: 0;
-                margin-left: -200px;
-                z-index: 1002;
             }
 
             #home {
@@ -432,6 +429,6 @@
             });
         });
     </script>
-    <!-- Cache bust v21 -->
+    <!-- Cache bust v22 -->
 </body>
 </html>
