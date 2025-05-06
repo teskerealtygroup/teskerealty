@@ -189,93 +189,56 @@
             padding: 0 15px 15px;
         }
 
-        #footer {
+        footer.footer {
             background: linear-gradient(to bottom, #c00, #a00);
-            min-height: 150px; /* Slightly taller for spacing */
-            padding: 30px 20px; /* More padding for openness */
-            border-top: 1px solid #fff;
+            padding: 40px 20px;
             color: #fff;
-            position: relative; /* For absolute copyright positioning */
+            border-top: 1px solid #fff;
         }
 
-        .footer-content {
+        .footer-container {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            max-width: 1400px; /* Wider for stretching */
+            max-width: 1400px;
             margin: 0 auto;
             flex-wrap: wrap;
-            gap: 30px; /* Slightly larger for balance */
+            gap: 20px;
         }
 
-        .company-info {
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
             text-align: left;
-            line-height: 1.8; /* More spacing */
-            font-size: 1em; /* Larger text */
         }
 
-        .company-info p {
-            margin: 0;
-        }
-
-        .footer-links {
-            text-align: right;
-            display: flex;
-            flex-direction: column;
-            gap: 8px; /* Slightly more spacing */
-            font-size: 1em; /* Larger text */
-        }
-
-        .footer-links a {
+        .footer-section h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
             color: #fff;
-            text-decoration: none;
-            transition: color 0.3s;
         }
 
-        .footer-links a:hover {
+        .footer-section p, .footer-section a {
+            font-size: 1em;
             color: #ccc;
-        }
-
-        .footer-center {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .social-placeholder {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-placeholder a {
-            width: 36px; /* Slightly smaller for balance */
-            height: 36px;
-            background: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #c00;
+            margin: 5px 0;
             text-decoration: none;
-            font-size: 0.9em;
-            transition: background 0.3s, color 0.3s;
         }
 
-        .social-placeholder a:hover {
-            background: #ccc;
-            color: #000;
+        .footer-section a:hover {
+            color: #fff;
         }
 
-        .copyright {
-            position: absolute;
-            bottom: 10px; /* Sits at bottom */
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 0.9em; /* Slightly larger */
-            color: #ddd;
+        .footer-section.social-links a {
+            display: block;
+            color: #fff;
+        }
+
+        .footer-section.legal-links a {
+            color: #c00; /* Matches Teske's red */
+        }
+
+        .footer-section.legal-links a:hover {
+            color: #a00;
         }
 
         @media (max-width: 768px) {
@@ -312,30 +275,15 @@
                 max-width: 100%;
             }
 
-            .footer-content {
+            .footer-container {
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
-                gap: 20px;
+                gap: 30px;
             }
 
-            .company-info {
+            .footer-section {
                 text-align: center;
-            }
-
-            .footer-links {
-                text-align: center;
-                flex-direction: row;
-                gap: 15px;
-            }
-
-            .footer-center {
-                order: 2; /* Social icons above copyright */
-            }
-
-            .copyright {
-                position: static; /* Normal flow for mobile */
-                margin-top: 10px;
             }
         }
     </style>
@@ -413,27 +361,27 @@
         </div>
     </section>
 
-    <section id="footer">
-        <div class="footer-content">
-            <div class="company-info">
-                <p>Teske Realty Group LLC</p>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section company-info">
+                <h3>Teske Realty Group</h3>
                 <p>Phoenix | Los Angeles | Madison</p>
                 <p>support@teskerealty.com</p>
+                <p>© 2025 Teske Realty Group LLC. All rights reserved.</p>
             </div>
-            <div class="footer-center">
-                <div class="social-placeholder">
-                    <a href="#">X</a>
-                    <a href="#">IG</a>
-                    <a href="#">FB</a>
-                </div>
+            <div class="footer-section social-links">
+                <h3>Connect With Us</h3>
+                <a href="#">X</a>
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
             </div>
-            <div class="footer-links">
-                <a href="#faq">FAQ</a>
-                <a href="#terms">Terms of Use</a>
+            <div class="footer-section legal-links">
+                <h3>Legal</h3>
+                <a href="#faq" class="legal-red">FAQ</a>
+                <a href="#terms" class="legal-red">Terms of Use</a>
             </div>
         </div>
-        <p class="copyright">© 2025 Teske Realty Group LLC. Designed by Teske Realty Group LLC.</p>
-    </section>
+    </footer>
 
     <script>
         const hamburger = document.querySelector('.hamburger');
@@ -458,6 +406,6 @@
             });
         });
     </script>
-    <!-- Cache bust v4 -->
+    <!-- Cache bust v5 -->
 </body>
 </html>
