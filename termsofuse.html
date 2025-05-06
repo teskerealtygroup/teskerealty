@@ -1,1 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teske Realty Group - Terms of Use</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
+        body {
+            background-color: #1a1a1a;
+            color: #000;
+        }
+
+        .banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            position: absolute;
+            left: -175;
+            top: 0;
+            width: 600px;
+            height: 180px;
+            object-fit: contain;
+            max-height: 80px;
+            margin: 0;
+            padding: 0;
+            margin-left: -200px;
+            z-index: 1001;
+        }
+
+        .site-menu {
+            display: flex;
+            gap: 20px;
+            margin-left: auto;
+            padding-right: 20px;
+        }
+
+        .site-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .site-menu a:hover {
+            background: #333;
+            color: #ccc;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+            margin-left: auto;
+            padding-right: 15px;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: #fff;
+            margin: 3px 0;
+            transition: all 0.3s;
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100%;
+            background: #c00;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: right 0.3s;
+            z-index: 999;
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5em;
+            margin: 20px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ccc;
+        }
+
+        section {
+            padding: 60px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #terms {
+            background: linear-gradient(175deg, #c00 15%, #1a1a1a 85%), repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 4px);
+            margin-top: 80px;
+        }
+
+        h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #fff;
+            transition: transform 0.3s;
+        }
+
+        h2:hover {
+            transform: scale(1.05); /* Cool hover effect */
+        }
+
+        p {
+            font-size: 1.4em;
+            max-width: 800px;
+            color: #ccc;
+            margin: 0 auto 20px;
+        }
+
+        .terms-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: left;
+            background: rgba(26, 26, 26, 0.8); /* Semi-transparent for contrast */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        details {
+            margin: 20px 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        summary {
+            font-size: 1.6em;
+            color: #fff;
+            padding: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        summary:hover {
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        details p {
+            font-size: 1.2em;
+            color: #ccc;
+            padding: 15px;
+            margin: 0;
+        }
+
+        .signature {
+            font-size: 1.8em;
+            color: #fff;
+            margin-top: 40px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        footer.footer {
+            background: linear-gradient(to bottom, #c00, #a00);
+            padding: 40px 20px;
+            color: #fff;
+            border-top: 1px solid #fff;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            text-align: left;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .footer-section p, .footer-section a {
+            font-size: 1em;
+            color: #ccc;
+            margin: 5px 0;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-section.social-links a {
+            display: block;
+            color: #fff;
+        }
+
+        .footer-section.legal-links a {
+            color: #fff;
+        }
+
+        .footer-section.legal-links a:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .site-menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .banner {
+                height: 70px;
+            }
+
+            .logo {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 500px;
+                height: 150px;
+                object-fit: contain;
+                max-height: 70px;
+                margin: 0;
+                padding: 0;
+                z-index: 1001;
+            }
+
+            #terms {
+                margin-top: 70px;
+            }
+
+            .terms-container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 2.5em;
+            }
+
+            p {
+                font-size: 1.2em;
+            }
+
+            summary {
+                font-size: 1.4em;
+            }
+
+            details p {
+                font-size: 1.1em;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .footer-section {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="banner">
+        <img src="redfox (3).png" alt="Teske Realty Logo" class="logo">
+        <div class="site-menu">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="properties.html">Properties</a>
+            <a href="management.html">Management</a>
+            <a href="requests.html">Repair Request</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+    <nav class="nav-menu">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="properties.html">Properties</a>
+        <a href="management.html">Management</a>
+        <a href="requests.html">Repair Request</a>
+        <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <section id="terms">
+        <h2>Terms of Use</h2>
+        <p>Welcome to Teske Realty Group’s Terms of Use. By accessing our website, you agree to these terms, crafted to ensure a seamless and respectful experience. Our commitment to excellence extends to how we engage with you online.</p>
+        <div class="terms-container">
+            <details>
+                <summary>1. Acceptance of Terms</summary>
+                <p>By using teskerealtygroup.github.io, you agree to be bound by these Terms of Use. If you do not agree, please refrain from using the site. These terms apply to all visitors, users, and clients.</p>
+            </details>
+            <details>
+                <summary>2. Website Usage</summary>
+                <p>Our website is for personal, non-commercial use. You may not reproduce, distribute, or modify any content without written permission. Unauthorized use, such as scraping or data mining, is strictly prohibited.</p>
+            </details>
+            <details>
+                <summary>3. Contact Forms and Email Usage</summary>
+                <p>When you submit a contact or repair request form, you consent to Teske Realty Group collecting and using your email address to respond to your inquiry or manage your request. We may also send marketing communications (e.g., new property listings, promotions), but you can opt out at any time via the unsubscribe link in our emails. Your data is stored securely in compliance with applicable privacy laws and is not shared with third parties without your consent.</p>
+            </details>
+            <details>
+                <summary>4. Intellectual Property</summary>
+                <p>All content on this site, including logos, images, text, and designs, is the property of Teske Realty Group LLC or its licensors. Unauthorized use of our intellectual property is prohibited and may result in legal action.</p>
+            </details>
+            <details>
+                <summary>5. Limitation of Liability</summary>
+                <p>Teske Realty Group is not liable for any damages arising from your use of the website, including errors, interruptions, or inaccuracies. We strive to provide accurate information but make no warranties about the site’s content or availability.</p>
+            </details>
+            <details>
+                <summary>6. Real Estate Services</summary>
+                <p>Services such as property management or listings are governed by separate agreements. These Terms of Use apply only to website interactions, not to contractual obligations for our services.</p>
+            </details>
+            <details>
+                <summary>7. Changes to Terms</summary>
+                <p>We may update these Terms of Use at any time. Changes will be posted on this page, and your continued use of the site constitutes acceptance of the updated terms. Please check periodically for updates.</p>
+            </details>
+            <details>
+                <summary>8. Contact Us</summary>
+                <p>If you have questions about these Terms of Use, please reach out to us at <a href="mailto:support@teskerealty.com">support@teskerealty.com</a>. We’re here to assist you with the same dedication we bring to our real estate services.</p>
+            </details>
+        </div>
+        <div class="signature">Teske Realty Group</div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section company-info">
+                <h3>Teske Realty Group</h3>
+                <p>Phoenix | Los Angeles | Madison</p>
+                <p>support@teskerealty.com</p>
+                <p>© 2025 Teske Realty Group LLC. All rights reserved.</p>
+            </div>
+            <div class="footer-section social-links">
+                <h3>Connect With Us</h3>
+                <a href="#">X</a>
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+            </div>
+            <div class="footer-section legal-links">
+                <h3>Legal</h3>
+                <a href="termsofuse.html">Terms of Use</a>
+                <a href="#faq">FAQ</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    <!-- Cache bust v1 -->
+</body>
+</html>
