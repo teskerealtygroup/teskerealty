@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teske Realty Group- Luxury Condominiums</title>
+    <title>Teske Realty Group - Luxury Condominiums</title>
     <style>
         * {
             margin: 0;
@@ -32,7 +32,7 @@
 
         .logo {
             position: absolute;
-            left: -175;
+            left: -175px;
             top: 0;
             width: 600px;
             height: 180px;
@@ -41,6 +41,7 @@
             margin: 0;
             padding: 0;
             margin-left: -200px;
+            z-index: 1001; /* Prevents banner overlap */
         }
 
         .site-menu {
@@ -136,28 +137,53 @@
         #home p {
             font-size: 1.5em;
             color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .view-properties-btn {
+            padding: 15px 30px;
+            background: #c00;
+            color: #fff;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .view-properties-btn:hover {
+            background: #a00;
         }
 
         #about {
-            background: #333;
+            background: linear-gradient(to bottom, #000, #1a1a1a);
+            min-height: 120vh; /* Increased for longer content */
+        }
+
+        #about h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #d3d3d3; /* Gray title */
+        }
+
+        #about p {
+            font-size: 1.2em;
+            max-width: 800px;
+            color: #fff; /* White text for legibility */
         }
 
         #contact {
-            background: #1a1a1a;
+            background: linear-gradient(to bottom, #000, #1a1a1a);
         }
 
-        #footer {
-            background: #c00;
-            min-height: 20vh;
-        }
-
-        h2 {
+        #contact h2 {
             font-size: 2.5em;
             margin-bottom: 20px;
             color: #c00;
         }
 
-        p {
+        #contact p {
             font-size: 1.2em;
             max-width: 800px;
             color: #ccc;
@@ -201,6 +227,48 @@
             background: #a00;
         }
 
+        #footer {
+            background: #c00;
+            min-height: 20vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .company-info {
+            text-align: left;
+            color: #fff;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ccc;
+        }
+
         .social-placeholder {
             display: flex;
             gap: 20px;
@@ -235,7 +303,7 @@
 
             .logo {
                 position: absolute;
-                left: 0;
+                left: -175px;
                 top: 0;
                 width: 500px;
                 height: 150px;
@@ -243,6 +311,8 @@
                 max-height: 70px;
                 margin: 0;
                 padding: 0;
+                margin-left: -200px;
+                z-index: 1001;
             }
 
             #home {
@@ -256,6 +326,20 @@
             #home p {
                 font-size: 1.2em;
             }
+
+            #about {
+                min-height: 140vh; /* Adjusted for mobile */
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .company-info {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -267,7 +351,7 @@
             <a href="#about">About</a>
             <a href="properties.html">Properties</a>
             <a href="management.html">Management</a>
-            <a href="requests.html">Repair Request</a>
+            <a href="requests.html">Repair Requests</a>
             <a href="#contact">Contact</a>
         </div>
         <div class="hamburger">
@@ -281,18 +365,19 @@
         <a href="#about">About</a>
         <a href="properties.html">Properties</a>
         <a href="management.html">Management</a>
-        <a href="requests.html">Repair Request</a>
+        <a href="requests.html">Repair Requests</a>
         <a href="#contact">Contact</a>
     </nav>
 
     <section id="home">
         <h1>Teske Realty Group</h1>
         <p>Luxury Condominiums & Property Management</p>
+        <a href="properties.html" class="view-properties-btn">View Properties</a>
     </section>
 
     <section id="about">
         <h2>About Us</h2>
-        <h3>Teske Realty specializes in luxury condominiums and property management across California, Arizona, and Wisconsin. Our mission is to provide unparalleled living experiences through innovative design, premium amenities, exceptional service, and expert property management solutions. Discover your dream home with us.</h3>
+        <p>Teske Realty Group is a premier real estate firm specializing in luxury condominiums and top-tier property management services across California, Arizona, and Wisconsin. With a commitment to excellence, we deliver unparalleled living experiences through innovative architectural designs, state-of-the-art amenities, and meticulous attention to detail. Our expert team provides comprehensive property management solutions, ensuring seamless operations and exceptional resident satisfaction. Whether you're seeking a sophisticated urban residence or a serene suburban retreat, Teske Realty Group is dedicated to helping you find and maintain your dream home with unmatched service and expertise.</p>
     </section>
 
     <section id="contact">
@@ -306,11 +391,21 @@
     </section>
 
     <section id="footer">
-        <h2>Follow Us</h2>
-        <div class="social-placeholder">
-            <a href="#">X</a>
-            <a href="#">IG</a>
-            <a href="#">FB</a>
+        <div class="footer-content">
+            <div class="company-info">
+                <p>Teske Realty Group LLC</p>
+                <p>Phoenix | Los Angeles | Madison</p>
+                <p>support@teskerealty.com</p>
+            </div>
+            <div class="footer-links">
+                <a href="#faq">FAQ</a>
+                <a href="#terms">Terms of Use</a>
+                <div class="social-placeholder">
+                    <a href="#">X</a>
+                    <a href="#">IG</a>
+                    <a href="#">FB</a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -328,11 +423,15 @@
                 e.preventDefault();
                 navMenu.classList.remove('active');
                 hamburger.classList.remove('active');
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
     </script>
+    <!-- Cache bust v20 -->
 </body>
 </html>
