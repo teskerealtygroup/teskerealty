@@ -32,7 +32,7 @@
 
         .logo {
             position: absolute;
-            left: -175px;
+            left: -175; /* Exact match to index.html */
             top: 0;
             width: 600px;
             height: 180px;
@@ -41,6 +41,7 @@
             margin: 0;
             padding: 0;
             margin-left: -200px;
+            z-index: 1001; /* Added to ensure visibility */
         }
 
         .site-menu {
@@ -137,7 +138,7 @@
             font-size: 1.2em;
             max-width: 800px;
             color: #ccc;
-            margin-bottom: 40px; /* Added to push property list down */
+            margin-bottom: 40px;
         }
 
         .property-list {
@@ -179,7 +180,7 @@
             font-size: 1em;
             color: #ccc;
             padding: 0 15px 15px;
-            margin-bottom: 0; /* Override for card text */
+            margin-bottom: 0;
         }
 
         .property-card .details {
@@ -264,7 +265,7 @@
 
             .logo {
                 position: absolute;
-                left: 0; /* Fixed to match index.html */
+                left: 0;
                 top: 0;
                 width: 500px;
                 height: 150px;
@@ -272,6 +273,7 @@
                 max-height: 70px;
                 margin: 0;
                 padding: 0;
+                z-index: 1001;
             }
 
             #properties {
@@ -326,7 +328,7 @@
         <div class="property-list">
             <!-- Property 1: California -->
             <div class="property-card">
-                <img src="https://images.unsplash.com/photo-1613970255375-3349330872d2?q=80&w=2070&auto=format&fit=crop" alt="Luxury Condo in San Francisco">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Luxury Condo in San Francisco">
                 <h3>Pacific Heights Penthouse</h3>
                 <p>San Francisco, CA</p>
                 <div class="details">
@@ -336,7 +338,7 @@
             </div>
             <!-- Property 2: Arizona -->
             <div class="property-card">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" alt="Luxury Condo in Scottsdale">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Luxury Condo in Scottsdale">
                 <h3>Desert Oasis Residences</h3>
                 <p>Scottsdale, AZ</p>
                 <div class="details">
@@ -346,7 +348,7 @@
             </div>
             <!-- Property 3: Wisconsin -->
             <div class="property-card">
-                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop" alt="Luxury Condo in Milwaukee">
+                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2" alt="Luxury Condo in Milwaukee">
                 <h3>Lakefront Towers</h3>
                 <p>Milwaukee, WI</p>
                 <div class="details">
@@ -356,7 +358,7 @@
             </div>
             <!-- Property 4: Additional Placeholder -->
             <div class="property-card">
-                <img src="https://images.unsplash.com/photo-1600563438938-a9a2b2b4f18f?q=80&w=2070&auto=format&fit=crop" alt="Luxury Condo in Phoenix">
+                <img src="https://images.unsplash.com/photo-1600563438938-a9a2b2b4f18f" alt="Luxury Condo in Phoenix">
                 <h3>Skyline Lofts</h3>
                 <p>Phoenix, AZ</p>
                 <div class="details">
@@ -409,5 +411,6 @@
             });
         });
     </script>
+    <!-- Cache bust v2 -->
 </body>
 </html>
