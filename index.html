@@ -32,16 +32,15 @@
 
         .logo {
             position: absolute;
-            left: -175px; /* Fixed unit */
+            left: -175px;
             top: 0;
             width: 600px;
             height: 180px;
             object-fit: contain;
             max-height: 80px;
-            margin: 0;
-            padding: 0;
             margin-left: -200px;
-            z-index: 1001;
+            z-index: 1002;
+            right: auto;
         }
 
         .site-menu {
@@ -157,29 +156,29 @@
         }
 
         #about {
-            background: linear-gradient(165deg, #c00 20%, #1a1a1a 80%); /* Offset angle */
+            background: linear-gradient(165deg, #c00 20%, #1a1a1a 80%);
         }
 
         #about h2 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            color: #fff; /* Matches #home */
+            color: #fff;
         }
 
         #about p {
-            font-size: 1.8em; /* Bigger, bold */
+            font-size: 1.8em;
             max-width: 800px;
-            color: #fff; /* Matches #home */
+            color: #fff;
         }
 
         #contact {
-            background: linear-gradient(195deg, #b00 30%, #1a1a1a 70%); /* Distinct angle, darker red */
+            background: linear-gradient(195deg, #b00 30%, #1a1a1a 70%);
         }
 
         #contact h2 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            color: #fff; /* Matches #home */
+            color: #fff;
         }
 
         .contact-form {
@@ -195,7 +194,7 @@
             padding: 15px;
             border: none;
             background: #333;
-            color: #fff; /* Matches #home */
+            color: #fff;
             font-size: 1em;
             border-radius: 5px;
         }
@@ -265,7 +264,7 @@
         }
 
         .footer-section.legal-links a {
-            color: #fff; /* White for visibility */
+            color: #fff;
         }
 
         .footer-section.legal-links a:hover {
@@ -287,18 +286,14 @@
 
             .logo {
                 position: absolute;
-                left: 50%; /* Corrected to percentage */
+                left: 50%;
                 transform: translateX(-50%);
                 top: 0;
-                width: 200px;
-                height: 60px;
+                width: 250px;
+                height: 75px;
                 object-fit: contain;
                 max-height: 70px;
-                margin: auto;
-                padding: 0;
-                display: block; /* Ensures centering in Safari */
-                right: auto; /* Prevents offset issues */
-                z-index: 1001;
+                z-index: 1002;
             }
 
             #home {
@@ -314,7 +309,7 @@
             }
 
             #about p {
-                font-size: 1.4em; /* Slightly smaller for mobile */
+                font-size: 1.4em;
             }
 
             .footer-container {
@@ -419,6 +414,6 @@
             });
         });
     </script>
-    <!-- Cache bust v1 -->
+    <!-- Cache bust v2 -->
 </body>
 </html>
