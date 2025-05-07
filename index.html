@@ -32,7 +32,7 @@
 
         .logo {
             position: absolute;
-            left: -175;
+            left: -175px; /* Fixed unit */
             top: 0;
             width: 600px;
             height: 180px;
@@ -287,16 +287,17 @@
 
             .logo {
                 position: absolute;
-                left: 50;
+                left: 50%; /* Corrected to percentage */
                 transform: translateX(-50%);
                 top: 0;
-                width: 300px;
-                height: 90px;
+                width: 200px;
+                height: 60px;
                 object-fit: contain;
                 max-height: 70px;
                 margin: auto;
                 padding: 0;
                 display: block; /* Ensures centering in Safari */
+                right: auto; /* Prevents offset issues */
                 z-index: 1001;
             }
 
