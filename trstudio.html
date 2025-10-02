@@ -1,878 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>TR: LandLord Studio — Teske Realty</title>
-<style>
-    :root{
-        --bg:#0f0f0f;
-        --card:#141414;
-        --accent:#c00;
-        --muted:#bfbfbf;
-        --white:#fff;
-        --glass: rgba(255,255,255,0.03);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TR: LandLord Studio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background: #1a1a1a; color: #fff; }
+
+    /* Login screen */
+    #login {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #c00, #1a1a1a);
     }
-    *{box-sizing:border-box;font-family:Inter,system-ui,Arial,Helvetica,sans-serif}
-    body{
-        margin:0;
-        background: linear-gradient(180deg,var(--bg),#0a0a0a);
-        color:var(--muted);
-        min-height:100vh;
+    .login-box {
+      background: #000;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+      text-align: center;
+      width: 300px;
     }
-
-    /* Banner */
-    .banner{
-        position:fixed;top:0;left:0;right:0;height:72px;
-        background:#000;display:flex;align-items:center;padding:0 18px;
-        box-shadow:0 2px 8px rgba(0,0,0,0.6);z-index:1000;
+    .login-box h2 { margin-bottom: 20px; }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px;
     }
-    .logo{height:60px;object-fit:contain;margin-right:12px}
-    .title{
-        color:var(--white);font-weight:700;font-size:1.15rem;margin-right:18px;
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background: #c00;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
     }
-    .nav{
-        margin-left:auto;display:flex;gap:8px;align-items:center;
+    .login-box button:hover { background: #a00; }
+    .error { color: red; font-size: 0.9em; }
+
+    /* Portal Layout */
+    #portal { display: none; }
+    header {
+      background: #000;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .tab-btn{
-        color:var(--white);background:transparent;border:0;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;
+    header img.logo {
+      height: 50px;
     }
-    .tab-btn.active{background:rgba(255,255,255,0.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.02)}
-    .sign-btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:6px;border:0;cursor:pointer;font-weight:700}
-
-    /* Layout */
-    .container{padding:96px 20px 40px;max-width:1200px;margin:0 auto}
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
-    .panel{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.6);color:var(--muted)}
-    header.h1{display:flex;align-items:center;gap:16px;margin-bottom:12px}
-    header.h1 h2{color:var(--white);margin:0;font-size:1.3rem}
-    .muted{color:var(--muted);font-size:0.95rem}
-
-    /* Controls & lists */
-    .row{display:flex;gap:8px;align-items:center}
-    input[type="text"], input[type="email"], input[type="password"], select, textarea{
-        width:100%;padding:10px;border-radius:8px;border:0;background:var(--glass);color:var(--white)
+    nav {
+      display: flex;
+      gap: 20px;
     }
-    textarea{min-height:90px;resize:vertical}
-    .btn{background:var(--accent);border:0;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
-    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-    table{width:100%;border-collapse:collapse;color:var(--muted)}
-    th,td{padding:8px 6px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.03);vertical-align:middle}
-    th{color:var(--white);font-size:0.95rem}
-    .small{font-size:0.9rem;color:#ddd}
-
-    /* Forms */
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .full{grid-column:1/-1}
-    .file-preview{max-height:90px;border-radius:8px;display:block;margin-top:8px}
-
-    /* Status badges */
-    .badge{display:inline-block;padding:6px 8px;border-radius:999px;font-weight:700;color:#111;background:#fff}
-    .status-open{background:#f9a8a8;color:#380000}
-    .status-inprog{background:#ffd580;color:#4a2b00}
-    .status-done{background:#b7f5c5;color:#023300}
-
-    /* Responsive */
-    @media (max-width:980px){.grid{grid-template-columns:1fr;}.nav{display:none}.hamb{display:block}}
-    .right-card{position:sticky;top:86px;height:fit-content}
-
-    /* Login modal */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:2000}
-    .modal{width:420px;max-width:95%;background:linear-gradient(180deg,#0f0f0f,#0b0b0b);padding:20px;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.8)}
-    .modal h3{margin:0 0 8px;color:var(--white)}
-    .link{color:var(--accent);cursor:pointer;text-decoration:underline}
-
-    /* footer small */
-    .foot{margin-top:18px;font-size:0.85rem;color:#aaa}
-    .hint{font-size:0.85rem;color:#bbb}
-</style>
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    nav a:hover, nav a.active {
+      background: #c00;
+    }
+    section {
+      display: none;
+      padding: 40px;
+    }
+    section.active { display: block; }
+  </style>
 </head>
 <body>
 
-<!-- Banner -->
-<header class="banner">
-    <img src="redfox (3).png" alt="Teske Logo" class="logo">
-    <div class="title">TR: LandLord Studio</div>
-    <nav class="nav" aria-label="Main navigation">
-        <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
-        <button class="tab-btn" data-tab="repairs">Repair Requests</button>
-        <button class="tab-btn" data-tab="payments">Rental Payment History</button>
-        <button class="tab-btn" data-tab="properties">Properties</button>
-        <button class="tab-btn" data-tab="tenants">Tenants</button>
-        <button class="tab-btn" data-tab="contracts">Contracts</button>
-        <button id="signToggle" class="sign-btn">Sign In</button>
-    </nav>
-</header>
-
-<!-- Main -->
-<main class="container">
-    <div id="not-signed" class="panel" style="display:block">
-        <header class="h1">
-            <h2>Welcome to TR: LandLord Studio</h2>
-        </header>
-        <p class="muted">This portal is currently private to your Teske Realty management team. Sign in to manage repair requests, upload contracts, track payments, tenants, and properties. Data is stored locally (browser <code>localStorage</code>) for now — ideal for local testing. You can export/import data from the right panel.</p>
+  <!-- LOGIN SCREEN -->
+  <div id="login">
+    <div class="login-box">
+      <h2>Admin Login</h2>
+      <p id="error" class="error"></p>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button onclick="checkLogin()">Login</button>
     </div>
+  </div>
 
-    <div id="app" style="display:none">
-        <div class="grid">
-            <div>
-                <!-- Dashboard / Tabs container -->
-                <section id="dashboard" class="panel tab-content">
-                    <header class="h1"><h2>Manager Dashboard</h2></header>
-                    <p class="muted">Quick overview. Use the left navigation or tab buttons to access sections.</p>
+  <!-- PORTAL -->
+  <div id="portal">
+    <header>
+      <img src="redfox (3).png" class="logo" alt="Teske Realty Logo">
+      <nav>
+        <a href="#" onclick="showTab('repairs')">Repair Requests</a>
+        <a href="#" onclick="showTab('payments')">Rental Payment History</a>
+        <a href="#" onclick="showTab('properties')">Properties</a>
+        <a href="#" onclick="showTab('tenants')">Tenants</a>
+        <a href="#" onclick="showTab('contracts')">Contracts</a>
+      </nav>
+    </header>
 
-                    <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
-                        <div class="panel" style="flex:1;min-width:200px">
-                            <h4 style="margin:0 0 8px;color:var(--white)">Pending Repairs</h4>
-                            <div id="dash-repairs" class="muted">—</div>
-                        </div>
+    <section id="repairs" class="active">
+      <h1>Repair Requests</h1>
+      <p>Track, add, and manage repair requests here.</p>
+    </section>
 
-                        <div class="panel" style="flex:1;min-width:200px">
-                            <h4 style="margin:0 0 8px;color:var(--white)">Last Payments</h4>
-                            <div id="dash-payments" class="muted">—</div>
-                        </div>
+    <section id="payments">
+      <h1>Rental Payment History</h1>
+      <p>View tenant payment records here.</p>
+    </section>
 
-                        <div class="panel" style="flex:0 0 240px;min-width:200px">
-                            <h4 style="margin:0 0 8px;color:var(--white)">Properties</h4>
-                            <div id="dash-props" class="muted">—</div>
-                        </div>
-                    </div>
-                </section>
+    <section id="properties">
+      <h1>Properties</h1>
+      <p>Manage property details, photos, and documents.</p>
+    </section>
 
-                <!-- Repair Requests -->
-                <section id="repairs" class="panel tab-content" style="display:none">
-                    <header class="h1"><h2>Repair Requests</h2></header>
-                    <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
-                        <div style="flex:1">
-                            <input id="repair-search" type="text" placeholder="Search repairs (address / tenant / notes)">
-                        </div>
-                        <button class="btn" id="btn-new-repair">New Repair</button>
-                    </div>
+    <section id="tenants">
+      <h1>Tenants</h1>
+      <p>Keep track of tenant information.</p>
+    </section>
 
-                    <div id="repairs-list" style="max-height:420px;overflow:auto"></div>
+    <section id="contracts">
+      <h1>Contracts</h1>
+      <p>Upload, store, and manage lease contracts here.</p>
+    </section>
+  </div>
 
-                    <!-- New / Edit form (hidden until needed) -->
-                    <div id="repair-form" style="display:none;margin-top:12px">
-                        <h4 style="margin:0 0 8px;color:var(--white)">Repair Request</h4>
-                        <div class="form-grid">
-                            <input id="r_prop" type="text" placeholder="Property ID or Address">
-                            <input id="r_tenant" type="text" placeholder="Tenant Name">
-                            <select id="r_priority">
-                                <option value="normal">Normal</option>
-                                <option value="high">High</option>
-                                <option value="urgent">Urgent</option>
-                            </select>
-                            <input id="r_contact" type="text" placeholder="Contact (phone/email)">
-                            <div class="full">
-                                <textarea id="r_notes" placeholder="Describe the issue"></textarea>
-                            </div>
-                            <div class="full">
-                                <label class="hint">Attach photo (optional)</label>
-                                <input id="r_file" type="file" accept="image/*">
-                                <img id="r_preview" class="file-preview" style="display:none">
-                            </div>
-                            <div class="full row" style="justify-content:flex-end">
-                                <button id="r_save" class="btn">Save</button>
-                                <button id="r_cancel" class="ghost" style="margin-left:8px">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+  <script>
+    // Hardcoded credentials
+    const ADMIN_EMAIL = "teskerealtygroup@gmail.com";
+    const ADMIN_PASS = "admin";
 
-                <!-- Payments -->
-                <section id="payments" class="panel tab-content" style="display:none">
-                    <header class="h1"><h2>Rental Payment History</h2></header>
-                    <p class="muted">Payments are recorded here; note where tenants paid (Zelle notes). This does not process payments — it's a ledger for management.</p>
+    function checkLogin() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-                    <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
-                        <input id="pay-search" type="text" placeholder="Search payments by tenant, property, note" style="flex:1">
-                        <button id="btn-new-payment" class="btn">Add Payment</button>
-                    </div>
-
-                    <div id="payments-list" style="margin-top:12px;max-height:420px;overflow:auto"></div>
-
-                    <div id="payment-form" style="display:none;margin-top:12px">
-                        <h4 style="margin:0 0 8px;color:var(--white)">Record Payment</h4>
-                        <div class="form-grid">
-                            <input id="p_date" type="text" placeholder="Date (YYYY-MM-DD)" value="">
-                            <input id="p_amount" type="text" placeholder="Amount (USD)">
-                            <input id="p_tenant" type="text" placeholder="Tenant name">
-                            <input id="p_prop" type="text" placeholder="Property ID / Address">
-                            <div class="full"><input id="p_note" type="text" placeholder="Notes (e.g., Zelle to 123-456-7890)"></div>
-                            <div class="full row" style="justify-content:flex-end">
-                                <button id="p_save" class="btn">Save</button>
-                                <button id="p_cancel" class="ghost" style="margin-left:8px">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Properties -->
-                <section id="properties" class="panel tab-content" style="display:none">
-                    <header class="h1"><h2>Properties</h2></header>
-                    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
-                        <input id="prop-search" type="text" placeholder="Search properties (address / id)" style="flex:1">
-                        <button id="btn-new-prop" class="btn">Add Property</button>
-                    </div>
-
-                    <div id="props-list" style="max-height:420px;overflow:auto"></div>
-
-                    <div id="prop-form" style="display:none;margin-top:12px">
-                        <h4 style="margin:0 0 8px;color:var(--white)">Property</h4>
-                        <div class="form-grid">
-                            <input id="pr_title" type="text" placeholder="Title / Address">
-                            <input id="pr_unit" type="text" placeholder="Unit / ID">
-                            <input id="pr_rent" type="text" placeholder="Rent amount">
-                            <div class="full"><textarea id="pr_notes" placeholder="Notes / amenities"></textarea></div>
-                            <div class="full">
-                                <label class="hint">Upload image (optional)</label>
-                                <input id="pr_file" type="file" accept="image/*">
-                                <img id="pr_preview" class="file-preview" style="display:none">
-                            </div>
-                            <div class="full row" style="justify-content:flex-end">
-                                <button id="pr_save" class="btn">Save</button>
-                                <button id="pr_cancel" class="ghost" style="margin-left:8px">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Tenants -->
-                <section id="tenants" class="panel tab-content" style="display:none">
-                    <header class="h1"><h2>Tenants</h2></header>
-                    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
-                        <input id="tenant-search" type="text" placeholder="Search tenants" style="flex:1">
-                        <button id="btn-new-tenant" class="btn">Add Tenant</button>
-                    </div>
-
-                    <div id="tenants-list" style="max-height:420px;overflow:auto"></div>
-
-                    <div id="tenant-form" style="display:none;margin-top:12px">
-                        <h4 style="margin:0 0 8px;color:var(--white)">Tenant</h4>
-                        <div class="form-grid">
-                            <input id="t_name" type="text" placeholder="Full name">
-                            <input id="t_email" type="email" placeholder="Email">
-                            <input id="t_phone" type="text" placeholder="Phone">
-                            <input id="t_unit" type="text" placeholder="Property / Unit">
-                            <div class="full">
-                                <textarea id="t_notes" placeholder="Notes (lease dates, pet info...)"></textarea>
-                            </div>
-                            <div class="full row" style="justify-content:flex-end">
-                                <button id="t_save" class="btn">Save</button>
-                                <button id="t_cancel" class="ghost" style="margin-left:8px">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Contracts -->
-                <section id="contracts" class="panel tab-content" style="display:none">
-                    <header class="h1"><h2>Contracts</h2></header>
-                    <p class="muted">Upload signed leases, add contract notes, or download when you need them.</p>
-
-                    <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
-                        <input id="contract-search" type="text" placeholder="Search contracts (tenant / prop / notes)" style="flex:1">
-                        <button id="btn-new-contract" class="btn">Upload Contract</button>
-                    </div>
-
-                    <div id="contracts-list" style="margin-top:12px;max-height:420px;overflow:auto"></div>
-
-                    <div id="contract-form" style="display:none;margin-top:12px">
-                        <h4 style="margin:0 0 8px;color:var(--white)">Upload Contract</h4>
-                        <div class="form-grid">
-                            <input id="c_tenant" type="text" placeholder="Tenant name">
-                            <input id="c_prop" type="text" placeholder="Property / Unit">
-                            <div class="full">
-                                <label class="hint">Select file (PDF preferred)</label>
-                                <input id="c_file" type="file" accept=".pdf,.doc,.docx,image/*">
-                            </div>
-                            <div class="full"><input id="c_notes" type="text" placeholder="Notes (lease period etc)"></div>
-                            <div class="full row" style="justify-content:flex-end">
-                                <button id="c_save" class="btn">Upload</button>
-                                <button id="c_cancel" class="ghost" style="margin-left:8px">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            <!-- Right column (export / session / quick actions) -->
-            <aside class="right-card">
-                <div class="panel">
-                    <h4 style="margin-top:0;color:var(--white)">Session</h4>
-                    <div id="session-info" class="muted">Not signed in</div>
-                    <div style="margin-top:12px;display:flex;gap:8px">
-                        <button class="btn" id="export-data">Export Data</button>
-                        <button class="ghost" id="import-data">Import</button>
-                    </div>
-                    <div style="margin-top:12px">
-                        <label class="hint">Data storage: browser localStorage (for testing). When ready we can add server persistence.</label>
-                    </div>
-                </div>
-
-                <div class="panel" style="margin-top:12px">
-                    <h4 style="margin-top:0;color:var(--white)">Quick Add</h4>
-                    <div style="display:grid;gap:8px">
-                        <input id="qa_tenant" placeholder="Tenant name">
-                        <input id="qa_prop" placeholder="Property">
-                        <div style="display:flex;gap:8px">
-                            <input id="qa_amount" placeholder="Amount" style="flex:1">
-                            <button id="qa_addpay" class="btn">Add Payment</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel" style="margin-top:12px">
-                    <h4 style="margin-top:0;color:var(--white)">Data</h4>
-                    <div class="muted"><strong id="count-props">0</strong> properties • <strong id="count-tenants">0</strong> tenants • <strong id="count-payments">0</strong> payments</div>
-                    <div class="foot">© 2025 Teske Realty Group • TR: LandLord Studio</div>
-                </div>
-            </aside>
-        </div>
-    </div>
-</main>
-
-<!-- Sign-in modal template -->
-<div id="modal" class="modal-backdrop" style="display:none">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <h3 id="modalTitle">Sign In — TR: LandLord Studio</h3>
-        <div class="muted">Enter manager credentials to access the portal.</div>
-        <div style="margin-top:12px;display:grid;gap:8px">
-            <input id="login-user" placeholder="Username">
-            <input id="login-pass" placeholder="Password" type="password">
-            <div style="display:flex;gap:8px;align-items:center">
-                <button id="login-go" class="btn">Sign In</button>
-                <button id="login-logout" class="ghost" style="margin-left:auto">Sign Out</button>
-            </div>
-            <div class="foot" style="margin-top:6px">
-                <div>Default admin credentials: <code>admin / landlord</code></div>
-                <div class="hint">You may change manager credentials from localStorage in the console (see README). For production, add server auth.</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-/*
-  TR: LandLord Studio — Single-file client app
-  - Uses localStorage for persistence under the key 'trls_data'
-  - Basic authentication stored in localStorage under 'trls_auth' (for local testing only)
-  - This is intentionally client-side only so you can run it locally or on GitHub Pages while you prototype.
-*/
-
-/* ---------- Utilities ---------- */
-const uid = ()=>'id_'+Math.random().toString(36).slice(2,9);
-const todayISO = ()=>new Date().toISOString().slice(0,10);
-const qs = s=>document.querySelector(s);
-const qsa = s=>Array.from(document.querySelectorAll(s));
-
-/* ---------- Data Layer (localStorage) ---------- */
-const STORAGE_KEY = 'trls_data_v1';
-const AUTH_KEY = 'trls_auth_v1';
-
-function defaultData(){
-    return {
-        properties: [],
-        tenants: [],
-        repairs: [],
-        payments: [],
-        contracts: []
-    };
-}
-function loadData(){
-    try{
-        const raw = localStorage.getItem(STORAGE_KEY);
-        return raw? JSON.parse(raw) : defaultData();
-    }catch(e){ console.error(e); return defaultData(); }
-}
-function saveData(d){ localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
-
-/* Auth */
-function loadAuth(){
-    try{
-        const raw = localStorage.getItem(AUTH_KEY);
-        if(raw) return JSON.parse(raw);
-        // default admin (change in console or add UI later)
-        const def = {username:'admin', password:'landlord'}; 
-        localStorage.setItem(AUTH_KEY, JSON.stringify(def));
-        return def;
-    }catch(e){ return {username:'admin',password:'landlord'} }
-}
-function setAuth(obj){ localStorage.setItem(AUTH_KEY, JSON.stringify(obj)); }
-
-/* Session */
-function setSession(user){
-    sessionStorage.setItem('trls_session', JSON.stringify({user, at:new Date().toISOString()}));
-}
-function clearSession(){ sessionStorage.removeItem('trls_session'); }
-function getSession(){ const s = sessionStorage.getItem('trls_session'); return s? JSON.parse(s) : null; }
-
-/* ---------- App State ---------- */
-let DATA = loadData();
-const AUTH = loadAuth();
-
-/* ---------- Helpers: render counts & dashboard ---------- */
-function refreshCounts(){
-    qs('#count-props').textContent = DATA.properties.length;
-    qs('#count-tenants').textContent = DATA.tenants.length;
-    qs('#count-payments').textContent = DATA.payments.length;
-}
-function refreshDashboard(){
-    const pending = DATA.repairs.filter(r=>r.status!=='done').length;
-    qs('#dash-repairs').textContent = pending + ' pending';
-    qs('#dash-payments').textContent = (DATA.payments.slice(-5).map(p=>`${p.date} • ${p.amount} • ${p.tenant}`).join('\n') || '—');
-    qs('#dash-props').textContent = DATA.properties.slice(0,5).map(p=>p.title).join(', ') || '—';
-}
-
-/* ---------- Rendering lists ---------- */
-function renderRepairs(filter=''){
-    const node = qs('#repairs-list'); node.innerHTML='';
-    const items = DATA.repairs.filter(r=>{
-        const s = `${r.prop||''} ${r.tenant||''} ${r.notes||''}`.toLowerCase();
-        return s.includes(filter.toLowerCase());
-    }).sort((a,b)=> (a.created<b.created?1:-1));
-    if(items.length===0){ node.innerHTML = '<div class="muted">No repair requests</div>'; return; }
-    items.forEach(r=>{
-        const el = document.createElement('div');
-        el.style.display='flex';el.style.gap='12px';el.style.alignItems='center';el.style.marginBottom='10px';
-        el.innerHTML = `
-            <div style="flex:1">
-                <div style="display:flex;align-items:center;gap:8px">
-                    <div style="font-weight:700;color:var(--white)">${r.prop||'—'}</div>
-                    <div class="small">${r.tenant ? '• '+r.tenant : ''}</div>
-                    <div style="margin-left:8px" class="small">${new Date(r.created).toLocaleString()}</div>
-                </div>
-                <div class="muted" style="margin-top:6px">${r.notes||''}</div>
-                ${r.file ? `<img src="${r.file}" style="height:100px;border-radius:8px;margin-top:8px">` : ''}
-            </div>
-            <div style="min-width:160px;text-align:right">
-                <div style="margin-bottom:6px">${r.priority==='urgent'?'<span class="badge status-inprog">URGENT</span>': r.priority==='high'?'<span class="badge status-inprog">HIGH</span>':'<span class="badge">Normal</span>'}</div>
-                <div style="display:flex;gap:6px;justify-content:flex-end">
-                    <button class="ghost" data-id="${r.id}" data-act="toggle">${r.status==='done'?'Reopen':'Mark Done'}</button>
-                    <button class="ghost" data-id="${r.id}" data-act="edit">Edit</button>
-                    <button class="ghost" data-id="${r.id}" data-act="del">Delete</button>
-                </div>
-            </div>
-        `;
-        node.appendChild(el);
-    });
-}
-
-function renderPayments(filter=''){
-    const node = qs('#payments-list'); node.innerHTML='';
-    const items = DATA.payments.filter(p=>{
-        const s = `${p.tenant||''} ${p.prop||''} ${p.note||''}`.toLowerCase();
-        return s.includes(filter.toLowerCase());
-    }).sort((a,b)=> (a.date < b.date ? 1:-1));
-    if(items.length===0){ node.innerHTML = '<div class="muted">No payments recorded</div>'; return; }
-    const table = document.createElement('table');
-    table.innerHTML = `<thead><tr><th>Date</th><th>Tenant</th><th>Property</th><th>Amount</th><th>Notes</th><th></th></tr></thead>`;
-    const tb = document.createElement('tbody');
-    items.forEach(p=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td class="small">${p.date}</td><td>${p.tenant||''}</td><td class="small">${p.prop||''}</td><td style="font-weight:700;color:var(--white)">$${p.amount}</td><td class="small">${p.note||''}</td>
-            <td style="width:120px"><button class="ghost" data-id="${p.id}" data-act="del-pay">Delete</button></td>`;
-        tb.appendChild(tr);
-    });
-    table.appendChild(tb); node.appendChild(table);
-}
-
-function renderProperties(filter=''){
-    const node = qs('#props-list'); node.innerHTML='';
-    const items = DATA.properties.filter(p=>`${p.title||''} ${p.unit||''}`.toLowerCase().includes(filter.toLowerCase())).sort((a,b)=> a.title.localeCompare(b.title));
-    if(items.length===0){ node.innerHTML = '<div class="muted">No properties</div>'; return; }
-    items.forEach(p=>{
-        const el = document.createElement('div');
-        el.style.display='flex';el.style.gap='12px';el.style.alignItems='center';el.style.marginBottom='10px';
-        el.innerHTML = `
-            <div style="flex:1">
-                <div style="font-weight:700;color:var(--white)">${p.title} ${p.unit?('• '+p.unit):''}</div>
-                <div class="muted">Rent: $${p.rent||'—'}</div>
-                <div class="muted" style="margin-top:6px">${p.notes||''}</div>
-            </div>
-            <div style="min-width:140px;text-align:right">
-                ${p.image?`<img src="${p.image}" style="height:64px;border-radius:8px">` : ''}
-                <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:8px">
-                    <button class="ghost" data-id="${p.id}" data-act="edit-prop">Edit</button>
-                    <button class="ghost" data-id="${p.id}" data-act="del-prop">Delete</button>
-                </div>
-            </div>
-        `;
-        node.appendChild(el);
-    });
-}
-
-function renderTenants(filter=''){
-    const node = qs('#tenants-list'); node.innerHTML='';
-    const items = DATA.tenants.filter(t=>`${t.name||''} ${t.email||''} ${t.unit||''}`.toLowerCase().includes(filter.toLowerCase())).sort((a,b)=> a.name.localeCompare(b.name));
-    if(items.length===0){ node.innerHTML = '<div class="muted">No tenants</div>'; return; }
-    items.forEach(t=>{
-        const el = document.createElement('div');
-        el.style.display='flex';el.style.gap='12px';el.style.alignItems='center';el.style.marginBottom='10px';
-        el.innerHTML = `
-            <div style="flex:1">
-                <div style="font-weight:700;color:var(--white)">${t.name}</div>
-                <div class="muted">${t.email || ''} ${t.phone?(' • '+t.phone):''}</div>
-                <div class="muted" style="margin-top:6px">${t.unit||''}</div>
-            </div>
-            <div style="min-width:140px;text-align:right">
-                <div style="display:flex;gap:6px;justify-content:flex-end">
-                    <button class="ghost" data-id="${t.id}" data-act="edit-tenant">Edit</button>
-                    <button class="ghost" data-id="${t.id}" data-act="del-tenant">Delete</button>
-                </div>
-            </div>
-        `;
-        node.appendChild(el);
-    });
-}
-
-function renderContracts(filter=''){
-    const node = qs('#contracts-list'); node.innerHTML='';
-    const items = DATA.contracts.filter(c=>`${c.tenant||''} ${c.prop||''} ${c.notes||''}`.toLowerCase().includes(filter.toLowerCase())).sort((a,b)=> b.uploaded - a.uploaded);
-    if(items.length===0){ node.innerHTML = '<div class="muted">No contracts uploaded</div>'; return; }
-    items.forEach(c=>{
-        const el = document.createElement('div');
-        el.style.display='flex';el.style.gap='12px';el.style.alignItems:'center';el.style.marginBottom='10px';
-        const label = c.filename || 'contract';
-        el.innerHTML = `
-            <div style="flex:1">
-                <div style="font-weight:700;color:var(--white)">${label}</div>
-                <div class="muted">${c.tenant?('Tenant: '+c.tenant):''} ${c.prop?('• '+c.prop):''}</div>
-                <div class="muted" style="margin-top:6px">${c.notes||''}</div>
-            </div>
-            <div style="min-width:160px;text-align:right">
-                <a download="${label}" href="${c.file}" class="btn" style="text-decoration:none">Download</a>
-                <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:8px">
-                    <button class="ghost" data-id="${c.id}" data-act="del-contract">Delete</button>
-                </div>
-            </div>
-        `;
-        node.appendChild(el);
-    });
-}
-
-/* ---------- Event wiring & logic ---------- */
-function showTab(name){
-    qsa('.tab-content').forEach(el=>el.style.display='none');
-    const target = qs('#'+name);
-    if(target) target.style.display='block';
-    qsa('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
-    // show sign-in toggle appropriately
-}
-
-/* Tab button clicks */
-qsa('.tab-btn').forEach(b=>{
-    b.addEventListener('click', ()=> showTab(b.dataset.tab));
-});
-
-/* Sign-in modal toggling */
-const modal = qs('#modal');
-qs('#signToggle').addEventListener('click', ()=> {
-    modal.style.display = 'flex';
-    const s = getSession();
-    if(s) qs('#login-user').value = s.user;
-});
-qs('#login-logout').addEventListener('click', ()=>{
-    clearSession();
-    modal.style.display = 'none';
-    updateAuthState();
-    alert('Signed out.');
-});
-
-qs('#login-go').addEventListener('click', ()=>{
-    const u = qs('#login-user').value.trim();
-    const p = qs('#login-pass').value;
-    const auth = loadAuth();
-    if(u === auth.username && p === auth.password){
-        setSession(u);
-        modal.style.display = 'none';
-        updateAuthState();
-    } else {
-        alert('Invalid credentials. Default admin / landlord (for local testing).');
+      if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("portal").style.display = "block";
+      } else {
+        document.getElementById("error").textContent = "Invalid email or password!";
+      }
     }
-});
 
-/* Close modal if clicking backdrop (but not inside modal) */
-modal.addEventListener('click', (e)=>{
-    if(e.target === modal) modal.style.display='none';
-});
+    // Tab switching
+    function showTab(tabId) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
 
-/* Update UI based on auth */
-function updateAuthState(){
-    const s = getSession();
-    if(!s){
-        qs('#app').style.display='none';
-        qs('#not-signed').style.display='block';
-        qs('#session-info').textContent = 'Not signed in';
-        qs('#signToggle').textContent = 'Sign In';
-    } else {
-        qs('#not-signed').style.display='none';
-        qs('#app').style.display='block';
-        qs('#session-info').textContent = `Signed in as: ${s.user}`;
-        qs('#signToggle').textContent = 'Profile';
-        // render everything
-        renderRepairs();
-        renderPayments();
-        renderProperties();
-        renderTenants();
-        renderContracts();
-        refreshCounts();
-        refreshDashboard();
-        showTab('dashboard');
+      document.querySelectorAll("nav a").forEach(link => link.classList.remove("active"));
+      event.target.classList.add("active");
     }
-}
+  </script>
 
-/* ---------- Repairs: create/edit/delete ---------- */
-let currentRepairEdit = null;
-qs('#btn-new-repair').addEventListener('click', ()=>{
-    qs('#repair-form').style.display='block';
-    qs('#r_prop').value=''; qs('#r_tenant').value=''; qs('#r_notes').value=''; qs('#r_preview').style.display='none';
-    currentRepairEdit = null;
-});
-qs('#r_cancel').addEventListener('click', ()=> qs('#repair-form').style.display='none');
-
-qs('#r_file').addEventListener('change', (e)=>{
-    const f = e.target.files[0];
-    if(!f) return;
-    const reader = new FileReader();
-    reader.onload = ()=> {
-        qs('#r_preview').src = reader.result; qs('#r_preview').style.display='block';
-    };
-    reader.readAsDataURL(f);
-});
-
-qs('#r_save').addEventListener('click', ()=>{
-    const prop = qs('#r_prop').value.trim();
-    const tenant = qs('#r_tenant').value.trim();
-    const notes = qs('#r_notes').value.trim();
-    const priority = qs('#r_priority').value;
-    const file = qs('#r_preview').src || null;
-    if(!notes){ alert('Please add a description'); return; }
-    if(currentRepairEdit){
-        const r = DATA.repairs.find(x=>x.id===currentRepairEdit);
-        if(r){ Object.assign(r,{prop,tenant,notes,priority,file}); saveData(DATA); }
-    } else {
-        DATA.repairs.push({id:uid(), prop, tenant, notes, priority, file, status:'open', created:new Date().toISOString()});
-        saveData(DATA);
-    }
-    qs('#repair-form').style.display='none';
-    renderRepairs(qs('#repair-search').value);
-    refreshCounts(); refreshDashboard();
-});
-
-/* Handle repair actions (toggle/edit/delete) */
-qs('#repairs-list').addEventListener('click', (e)=>{
-    const btn = e.target.closest('button');
-    if(!btn) return;
-    const id = btn.dataset.id, act = btn.dataset.act;
-    if(act==='toggle'){
-        const r = DATA.repairs.find(x=>x.id===id); if(r){ r.status = (r.status==='done'?'open':'done'); saveData(DATA); renderRepairs(qs('#repair-search').value); refreshDashboard(); }
-    } else if(act==='edit'){
-        const r = DATA.repairs.find(x=>x.id===id);
-        if(r){
-            currentRepairEdit = r.id;
-            qs('#repair-form').style.display='block';
-            qs('#r_prop').value = r.prop||''; qs('#r_tenant').value = r.tenant||''; qs('#r_notes').value = r.notes||'';
-            qs('#r_priority').value = r.priority||'normal';
-            if(r.file){ qs('#r_preview').src = r.file; qs('#r_preview').style.display='block'; } else qs('#r_preview').style.display='none';
-        }
-    } else if(act==='del'){
-        if(confirm('Delete this repair request?')){
-            DATA.repairs = DATA.repairs.filter(x=>x.id!==id); saveData(DATA); renderRepairs(qs('#repair-search').value); refreshCounts();
-        }
-    }
-});
-
-/* Search repairs */
-qs('#repair-search').addEventListener('input', (e)=> renderRepairs(e.target.value));
-
-/* ---------- Payments ---------- */
-let currentPaymentEdit = null;
-qs('#btn-new-payment').addEventListener('click', ()=>{
-    qs('#payment-form').style.display='block';
-    qs('#p_date').value = todayISO(); qs('#p_amount').value = ''; qs('#p_tenant').value=''; qs('#p_prop').value=''; qs('#p_note').value='';
-    currentPaymentEdit = null;
-});
-qs('#p_cancel').addEventListener('click', ()=> qs('#payment-form').style.display='none');
-
-qs('#p_save').addEventListener('click', ()=>{
-    const date = qs('#p_date').value || todayISO();
-    const amount = parseFloat(qs('#p_amount').value||0).toFixed(2);
-    const tenant = qs('#p_tenant').value.trim();
-    const prop = qs('#p_prop').value.trim();
-    const note = qs('#p_note').value.trim();
-    if(!amount || isNaN(amount) || amount<=0){ alert('Enter valid amount'); return; }
-    if(currentPaymentEdit){
-        const p = DATA.payments.find(x=>x.id===currentPaymentEdit); if(p) Object.assign(p,{date,amount,tenant,prop,note});
-    } else {
-        DATA.payments.push({id:uid(), date, amount, tenant, prop, note, created:new Date().toISOString()});
-    }
-    saveData(DATA); qs('#payment-form').style.display='none'; renderPayments(qs('#pay-search').value); refreshCounts(); refreshDashboard();
-});
-
-/* Delete payment from table */
-qs('#payments-list').addEventListener('click', (e)=>{
-    const btn = e.target.closest('button'); if(!btn) return;
-    const id = btn.dataset.id, act = btn.dataset.act;
-    if(act==='del-pay'){ if(confirm('Delete payment record?')){ DATA.payments = DATA.payments.filter(x=>x.id!==id); saveData(DATA); renderPayments(qs('#pay-search').value); refreshCounts(); } }
-});
-qs('#pay-search').addEventListener('input', (e)=> renderPayments(e.target.value));
-
-/* Quick add payment */
-qs('#qa_addpay').addEventListener('click', ()=>{
-    const t = qs('#qa_tenant').value.trim(); const prop = qs('#qa_prop').value.trim(); const amt = parseFloat(qs('#qa_amount').value||0).toFixed(2);
-    if(!amt || isNaN(amt) || amt<=0) { alert('Enter amount'); return; }
-    DATA.payments.push({id:uid(), date:todayISO(), amount:amt, tenant:t, prop, note:'Quick add (Zelle)'}); saveData(DATA);
-    qs('#qa_amount').value=''; renderPayments(''); refreshCounts(); refreshDashboard();
-});
-
-/* ---------- Properties ---------- */
-let currentPropEdit = null;
-qs('#btn-new-prop').addEventListener('click', ()=>{
-    qs('#prop-form').style.display='block'; qs('#pr_title').value=''; qs('#pr_unit').value=''; qs('#pr_rent').value=''; qs('#pr_notes').value=''; qs('#pr_preview').style.display='none';
-    currentPropEdit = null;
-});
-qs('#pr_cancel').addEventListener('click', ()=> qs('#prop-form').style.display='none');
-
-qs('#pr_file').addEventListener('change', (e)=>{
-    const f = e.target.files[0];
-    if(!f) return;
-    const reader = new FileReader();
-    reader.onload = ()=> { qs('#pr_preview').src = reader.result; qs('#pr_preview').style.display='block'; };
-    reader.readAsDataURL(f);
-});
-
-qs('#pr_save').addEventListener('click', ()=>{
-    const title = qs('#pr_title').value.trim();
-    const unit = qs('#pr_unit').value.trim();
-    const rent = qs('#pr_rent').value.trim();
-    const notes = qs('#pr_notes').value.trim();
-    const image = qs('#pr_preview').src || null;
-    if(!title){ alert('Enter property title/address'); return; }
-    if(currentPropEdit){
-        const p = DATA.properties.find(x=>x.id===currentPropEdit); if(p) Object.assign(p,{title,unit,rent,notes,image});
-    } else {
-        DATA.properties.push({id:uid(), title, unit, rent, notes, image, created:new Date().toISOString()});
-    }
-    saveData(DATA); qs('#prop-form').style.display='none'; renderProperties(qs('#prop-search').value); refreshCounts();
-});
-
-/* Prop edit/delete */
-qs('#props-list').addEventListener('click', (e)=>{
-    const btn = e.target.closest('button'); if(!btn) return;
-    const id = btn.dataset.id, act = btn.dataset.act;
-    if(act==='edit-prop'){
-        const p = DATA.properties.find(x=>x.id===id);
-        if(p){ currentPropEdit = p.id; qs('#prop-form').style.display='block'; qs('#pr_title').value=p.title; qs('#pr_unit').value=p.unit || ''; qs('#pr_rent').value=p.rent || ''; qs('#pr_notes').value=p.notes||''; if(p.image){qs('#pr_preview').src=p.image; qs('#pr_preview').style.display='block'} }
-    } else if(act==='del-prop'){ if(confirm('Delete property? This will NOT delete linked tenants or payments automatically.')){ DATA.properties = DATA.properties.filter(x=>x.id!==id); saveData(DATA); renderProperties(qs('#prop-search').value); refreshCounts(); } }
-});
-qs('#prop-search').addEventListener('input', (e)=> renderProperties(e.target.value));
-
-/* ---------- Tenants ---------- */
-let currentTenantEdit = null;
-qs('#btn-new-tenant').addEventListener('click', ()=> { qs('#tenant-form').style.display='block'; qs('#t_name').value=''; qs('#t_email').value=''; qs('#t_phone').value=''; qs('#t_unit').value=''; qs('#t_notes').value=''; currentTenantEdit=null; });
-qs('#t_cancel').addEventListener('click', ()=> qs('#tenant-form').style.display='none');
-
-qs('#t_save').addEventListener('click', ()=>{
-    const name = qs('#t_name').value.trim(); const email = qs('#t_email').value.trim(); const phone = qs('#t_phone').value.trim(); const unit = qs('#t_unit').value.trim(); const notes = qs('#t_notes').value.trim();
-    if(!name){ alert('Tenant name required'); return; }
-    if(currentTenantEdit){
-        const t = DATA.tenants.find(x=>x.id===currentTenantEdit); if(t) Object.assign(t,{name,email,phone,unit,notes});
-    } else {
-        DATA.tenants.push({id:uid(), name,email,phone,unit,notes,created:new Date().toISOString()});
-    }
-    saveData(DATA); qs('#tenant-form').style.display='none'; renderTenants(qs('#tenant-search').value); refreshCounts();
-});
-
-qs('#tenants-list').addEventListener('click', (e)=>{
-    const btn = e.target.closest('button'); if(!btn) return;
-    const id = btn.dataset.id, act = btn.dataset.act;
-    if(act==='edit-tenant'){ const t = DATA.tenants.find(x=>x.id===id); if(t){ currentTenantEdit=t.id; qs('#tenant-form').style.display='block'; qs('#t_name').value=t.name; qs('#t_email').value=t.email; qs('#t_phone').value=t.phone; qs('#t_unit').value=t.unit; qs('#t_notes').value=t.notes; } }
-    if(act==='del-tenant'){ if(confirm('Delete tenant?')){ DATA.tenants = DATA.tenants.filter(x=>x.id!==id); saveData(DATA); renderTenants(qs('#tenant-search').value); refreshCounts(); } }
-});
-qs('#tenant-search').addEventListener('input', (e)=> renderTenants(e.target.value));
-
-/* ---------- Contracts ---------- */
-let currentContractEdit = null;
-qs('#btn-new-contract').addEventListener('click', ()=> { qs('#contract-form').style.display='block'; qs('#c_tenant').value=''; qs('#c_prop').value=''; qs('#c_notes').value=''; qs('#c_file').value=''; currentContractEdit=null; });
-qs('#c_cancel').addEventListener('click', ()=> qs('#contract-form').style.display='none');
-
-qs('#c_file').addEventListener('change', (e)=>{
-    // no direct preview for non-image; we'll create download link on save
-});
-
-qs('#c_save').addEventListener('click', ()=>{
-    const tenant = qs('#c_tenant').value.trim(); const prop = qs('#c_prop').value.trim(); const notes = qs('#c_notes').value.trim();
-    const f = qs('#c_file').files[0];
-    if(!f){ alert('Choose a file'); return; }
-    const reader = new FileReader();
-    reader.onload = ()=> {
-        const dataUrl = reader.result;
-        const filename = f.name;
-        DATA.contracts.push({id:uid(), tenant, prop, notes, file:dataUrl, filename, uploaded:Date.now()});
-        saveData(DATA); qs('#contract-form').style.display='none'; renderContracts(qs('#contract-search').value); refreshCounts();
-    };
-    reader.readAsDataURL(f);
-});
-
-qs('#contracts-list').addEventListener('click', (e)=>{
-    const btn = e.target.closest('button'); if(!btn) return;
-    const id = btn.dataset.id, act = btn.dataset.act;
-    if(act==='del-contract'){ if(confirm('Delete contract?')){ DATA.contracts = DATA.contracts.filter(x=>x.id!==id); saveData(DATA); renderContracts(qs('#contract-search').value); refreshCounts(); } }
-});
-qs('#contract-search').addEventListener('input', (e)=> renderContracts(e.target.value));
-
-/* ---------- Export / Import ---------- */
-qs('#export-data').addEventListener('click', ()=>{
-    const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'trls-data-export.json'; a.click();
-    URL.revokeObjectURL(url);
-});
-
-qs('#import-data').addEventListener('click', ()=>{
-    const input = document.createElement('input'); input.type='file'; input.accept='application/json';
-    input.addEventListener('change', ()=>{
-        const f = input.files[0]; if(!f) return;
-        const reader = new FileReader();
-        reader.onload = ()=> {
-            try{
-                const imported = JSON.parse(reader.result);
-                if(!imported) throw new Error('Invalid file');
-                DATA = imported; saveData(DATA); renderAll(); alert('Imported data');
-            }catch(err){ alert('Import failed: '+err.message); }
-        };
-        reader.readAsText(f);
-    });
-    input.click();
-});
-
-/* ---------- Utility: render all ---------- */
-function renderAll(){
-    renderRepairs('');
-    renderPayments('');
-    renderProperties('');
-    renderTenants('');
-    renderContracts('');
-    refreshCounts(); refreshDashboard();
-}
-
-/* ---------- Initial boot ---------- */
-updateAuthState();
-renderAll();
-
-/* ---------- Small UX: keyboard shortcuts (optional) ---------- */
-document.addEventListener('keydown', (e)=>{
-    if(e.ctrlKey && e.key==='l'){ e.preventDefault(); modal.style.display='flex'; }
-});
-
-/* ---------- Notes for future / warnings ---------- */
-/*
-  WARNING: This demo stores credentials in localStorage (trls_auth_v1) and session in sessionStorage.
-  For production, replace auth with secure server-side authentication and use proper encrypted storage.
-  To add multi-user or remote storage, swap out localStorage load/save functions for API calls.
-*/
-
-</script>
 </body>
 </html>
