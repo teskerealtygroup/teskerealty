@@ -4,25 +4,74 @@
   <meta charset="UTF-8">
   <title>Teske Realty Admin</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
-    header { background: #222; color: white; padding: 10px 20px; text-align: center; }
-    nav { background: #333; display: flex; padding: 10px; }
-    nav a { color: white; text-decoration: none; margin-right: 15px; cursor: pointer; }
-    nav a.active { font-weight: bold; text-decoration: underline; }
-    .container { padding: 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+    header {
+      background: #222;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    nav {
+      background: #333;
+      display: flex;
+      padding: 10px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    nav a.active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .container {
+      padding: 20px;
+    }
     .hidden { display: none; }
-    .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 5px #aaa; margin-bottom: 20px; }
-    input, select, button, textarea { padding: 8px; margin: 5px 0; width: 100%; border-radius: 5px; border: 1px solid #ccc; }
-    button { background: black; color: white; border: none; cursor: pointer; }
-    button:hover { background: #444; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px #aaa;
+      margin-bottom: 20px;
+    }
+    input, select, button, textarea {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #444;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
     th { background: #eee; }
     .error { color: red; }
   </style>
 </head>
 <body>
-  <!-- Login -->
   <div id="login-screen" class="container">
     <div class="card">
       <h2>Admin Login</h2>
@@ -33,7 +82,6 @@
     </div>
   </div>
 
-  <!-- Main App -->
   <div id="main-app" class="hidden">
     <header>
       <h1>Teske Realty Admin Panel</h1>
@@ -71,74 +119,41 @@
           </select>
           <button type="submit">Save Repair Request</button>
         </form>
-        <table id="repair-table"><thead><tr>
-          <th>Details</th><th>Date/Time</th><th>Status</th>
-        </tr></thead><tbody></tbody></table>
+        <table id="repair-table">
+          <thead>
+            <tr>
+              <th>Details</th>
+              <th>Date/Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
 
       <!-- Rental Payments -->
       <div id="payments" class="tab card hidden">
         <h2>Rental Payment History</h2>
-        <form onsubmit="addPayment(event)">
-          <input type="text" id="payment-tenant" placeholder="Tenant Name" required>
-          <input type="text" id="payment-amount" placeholder="Amount" required>
-          <input type="text" id="payment-date" placeholder="Date/Time" required>
-          <input type="text" id="payment-method" placeholder="Payment Method" required>
-          <button type="submit">Save Payment</button>
-        </form>
-        <table id="payment-table"><thead><tr>
-          <th>Tenant</th><th>Amount</th><th>Date/Time</th><th>Method</th>
-        </tr></thead><tbody></tbody></table>
+        <p>We’ll add inputs here after Repair Requests are done.</p>
       </div>
 
       <!-- Tenants -->
       <div id="tenants" class="tab card hidden">
         <h2>Tenants</h2>
-        <form onsubmit="addTenant(event)">
-          <input type="text" id="tenant-name" placeholder="Tenant Name" required>
-          <input type="text" id="tenant-contact" placeholder="Contact Info" required>
-          <input type="text" id="tenant-lease-start" placeholder="Lease Start" required>
-          <input type="text" id="tenant-lease-end" placeholder="Lease End" required>
-          <button type="submit">Save Tenant</button>
-        </form>
-        <table id="tenant-table"><thead><tr>
-          <th>Name</th><th>Contact</th><th>Lease Start</th><th>Lease End</th>
-        </tr></thead><tbody></tbody></table>
+        <p>Manage tenant info here.</p>
       </div>
 
       <!-- Properties -->
       <div id="properties" class="tab card hidden">
         <h2>Properties</h2>
-        <form onsubmit="addProperty(event)">
-          <input type="text" id="property-address" placeholder="Property Address" required>
-          <input type="text" id="property-unit" placeholder="Unit #" required>
-          <input type="text" id="property-rent" placeholder="Rent Amount" required>
-          <button type="submit">Save Property</button>
-        </form>
-        <table id="property-table"><thead><tr>
-          <th>Address</th><th>Unit</th><th>Rent</th>
-        </tr></thead><tbody></tbody></table>
+        <p>Manage properties here.</p>
       </div>
 
       <!-- Contracts -->
       <div id="contracts" class="tab card hidden">
         <h2>Contracts</h2>
-        <form onsubmit="addContract(event)">
-          <input type="text" id="contract-title" placeholder="Contract Title" required>
-          <input type="text" id="contract-tenant" placeholder="Tenant" required>
-          <input type="text" id="contract-start" placeholder="Start Date" required>
-          <input type="text" id="contract-end" placeholder="End Date" required>
-          <select id="contract-status">
-            <option>Active</option>
-            <option>Expired</option>
-          </select>
-          <button type="submit">Save Contract</button>
-        </form>
-        <table id="contract-table"><thead><tr>
-          <th>Title</th><th>Tenant</th><th>Start</th><th>End</th><th>Status</th>
-        </tr></thead><tbody></tbody></table>
+        <p>Manage contracts here.</p>
       </div>
-
     </div>
   </div>
 
@@ -164,107 +179,41 @@
       document.querySelector(`#tab-${tabId}`)?.classList.add("active");
     }
 
-    // Data arrays
+    // Repair Requests data
     const repairRequests = [];
-    const payments = [];
-    const tenants = [];
-    const properties = [];
-    const contracts = [];
 
-    // Repair Requests
-    function addRepair(e) {
-      e.preventDefault();
-      repairRequests.push({
-        details: repairDetails.value,
-        date: repairDate.value,
-        status: repairStatus.value
-      });
-      repairDetails.value = repairDate.value = "";
-      repairStatus.value = "Not Started";
-      updateRepairTable(); updateDashboard();
+    function addRepair(event) {
+      event.preventDefault();
+      const details = document.getElementById("repair-details").value;
+      const date = document.getElementById("repair-date").value;
+      const status = document.getElementById("repair-status").value;
+
+      repairRequests.push({ details, date, status });
+      updateRepairTable();
+      updateDashboard();
+
+      // Clear form
+      document.getElementById("repair-details").value = "";
+      document.getElementById("repair-date").value = "";
+      document.getElementById("repair-status").value = "Not Started";
     }
+
     function updateRepairTable() {
-      repairTable.querySelector("tbody").innerHTML = repairRequests.map(r =>
-        `<tr><td>${r.details}</td><td>${r.date}</td><td>${r.status}</td></tr>`).join("");
-    }
-
-    // Payments
-    function addPayment(e) {
-      e.preventDefault();
-      payments.push({
-        tenant: paymentTenant.value,
-        amount: paymentAmount.value,
-        date: paymentDate.value,
-        method: paymentMethod.value
+      const tbody = document.getElementById("repair-table").querySelector("tbody");
+      tbody.innerHTML = "";
+      repairRequests.forEach(req => {
+        const row = `<tr>
+          <td>${req.details}</td>
+          <td>${req.date}</td>
+          <td>${req.status}</td>
+        </tr>`;
+        tbody.innerHTML += row;
       });
-      paymentTenant.value = paymentAmount.value = paymentDate.value = paymentMethod.value = "";
-      updatePaymentTable(); updateDashboard();
-    }
-    function updatePaymentTable() {
-      paymentTable.querySelector("tbody").innerHTML = payments.map(p =>
-        `<tr><td>${p.tenant}</td><td>${p.amount}</td><td>${p.date}</td><td>${p.method}</td></tr>`).join("");
     }
 
-    // Tenants
-    function addTenant(e) {
-      e.preventDefault();
-      tenants.push({
-        name: tenantName.value,
-        contact: tenantContact.value,
-        start: tenantLeaseStart.value,
-        end: tenantLeaseEnd.value
-      });
-      tenantName.value = tenantContact.value = tenantLeaseStart.value = tenantLeaseEnd.value = "";
-      updateTenantTable(); updateDashboard();
-    }
-    function updateTenantTable() {
-      tenantTable.querySelector("tbody").innerHTML = tenants.map(t =>
-        `<tr><td>${t.name}</td><td>${t.contact}</td><td>${t.start}</td><td>${t.end}</td></tr>`).join("");
-    }
-
-    // Properties
-    function addProperty(e) {
-      e.preventDefault();
-      properties.push({
-        address: propertyAddress.value,
-        unit: propertyUnit.value,
-        rent: propertyRent.value
-      });
-      propertyAddress.value = propertyUnit.value = propertyRent.value = "";
-      updatePropertyTable(); updateDashboard();
-    }
-    function updatePropertyTable() {
-      propertyTable.querySelector("tbody").innerHTML = properties.map(p =>
-        `<tr><td>${p.address}</td><td>${p.unit}</td><td>${p.rent}</td></tr>`).join("");
-    }
-
-    // Contracts
-    function addContract(e) {
-      e.preventDefault();
-      contracts.push({
-        title: contractTitle.value,
-        tenant: contractTenant.value,
-        start: contractStart.value,
-        end: contractEnd.value,
-        status: contractStatus.value
-      });
-      contractTitle.value = contractTenant.value = contractStart.value = contractEnd.value = "";
-      contractStatus.value = "Active";
-      updateContractTable(); updateDashboard();
-    }
-    function updateContractTable() {
-      contractTable.querySelector("tbody").innerHTML = contracts.map(c =>
-        `<tr><td>${c.title}</td><td>${c.tenant}</td><td>${c.start}</td><td>${c.end}</td><td>${c.status}</td></tr>`).join("");
-    }
-
-    // Dashboard updater
+    // Dashboard sync
     function updateDashboard() {
       document.getElementById("count-requests").textContent = repairRequests.length;
-      document.getElementById("last-payment").textContent = payments.length ? `${payments[payments.length-1].tenant}, $${payments[payments.length-1].amount} on ${payments[payments.length-1].date}` : "None";
-      document.getElementById("count-properties").textContent = properties.length;
-      document.getElementById("count-tenants").textContent = tenants.length;
-      document.getElementById("tenant-names").textContent = tenants.length ? tenants.map(t => t.name).join(", ") : "None";
-      document.getElementById("count-contracts").textContent = contracts.filter(c => c.status === "Active").length;
     }
   </script>
 </body>
