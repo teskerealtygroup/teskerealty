@@ -129,6 +129,7 @@
         <a href="#" onclick="showTab('properties')">Properties</a>
         <a href="#" onclick="showTab('tenants')">Tenants</a>
         <a href="#" onclick="showTab('contracts')">Contracts</a>
+        <a href="#" onclick="showTab('taxes')">Taxes</a>
       </nav>
     </header>
 
@@ -141,6 +142,7 @@
         <li>Total Properties: <span id="propertyCount">0</span></li>
         <li>Total Tenants: <span id="tenantCount">0</span> (<span id="tenantNames">-</span>)</li>
         <li>Active Contracts: <span id="contractCount">0</span></li>
+        <li>Tax Records: <span id="taxCount">0</span></li>
       </ul>
     </section>
 
@@ -205,6 +207,17 @@
       </form>
       <ul id="contractList"></ul>
     </section>
+
+    <!-- Taxes -->
+    <section id="taxes">
+      <h1>Taxes</h1>
+      <form id="taxForm">
+        <input type="text" id="taxDetails" placeholder="Tax expense or note" required>
+        <input type="file" id="taxFile" accept=".jpg,.jpeg,.png,.pdf" multiple>
+        <button type="submit">Save</button>
+      </form>
+      <ul id="taxList"></ul>
+    </section>
   </div>
 
   <script>
@@ -239,8 +252,9 @@
     let properties = [];
     let tenants = [];
     let contracts = [];
+    let taxes = [];
 
-    // Add + edit + delete generic function
+    // Generic add/edit/delete handler
     function createListHandler(formId, listId, array, fields) {
       document.getElementById(formId).addEventListener("submit", e => {
         e.preventDefault();
@@ -294,6 +308,7 @@
     createListHandler("propertyForm", "propertyList", properties, ["propertyDetails","propertyFile"]);
     createListHandler("tenantForm", "tenantList", tenants, ["tenantName","tenantFile"]);
     createListHandler("contractForm", "contractList", contracts, ["contractDetails","contractFile"]);
+    createListHandler("taxForm", "taxList", taxes, ["taxDetails","taxFile"]);
 
     // Dashboard updater
     function updateDashboard() {
@@ -303,6 +318,7 @@
       document.getElementById("tenantCount").textContent = tenants.length;
       document.getElementById("tenantNames").textContent = tenants.length ? tenants.map(t=>t.tenantName).join(", ") : "-";
       document.getElementById("contractCount").textContent = contracts.length;
+      document.getElementById("taxCount").textContent = taxes.length;
     }
   </script>
 
