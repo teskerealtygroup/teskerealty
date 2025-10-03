@@ -1,96 +1,316 @@
-<!-- REPAIRS -->
-<section id="repairs">
-  <h1>Repair Requests</h1>
-  <form id="repairForm">
-    <input type="hidden" id="repairId"> <!-- used when editing -->
-    <input type="text" id="repairDetails" placeholder="Details" required>
-    <input type="datetime-local" id="repairDate" required>
-    <select id="repairStatus">
-      <option>Not Started</option>
-      <option>In Progress</option>
-      <option>Complete</option>
-    </select>
-    <input type="file" id="repairFiles" multiple accept=".pdf,.jpg,.jpeg,.png">
-    <button type="submit">Save Repair Request</button>
-  </form>
-  <ul id="repairList"></ul>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TR: LandLord Studio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background: #1a1a1a; color: #fff; }
 
-<script>
-  function saveData(key, obj, id=null) {
-    let data = JSON.parse(localStorage.getItem(key)) || [];
-    if (id !== null) {
-      // Update existing
-      data[id] = obj;
-    } else {
-      data.push(obj);
+    /* Login screen */
+    #login {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #c00, #1a1a1a);
     }
-    localStorage.setItem(key, JSON.stringify(data));
-    renderList(key);
-    updateDashboard();
-  }
+    .login-box {
+      background: #000;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+      text-align: center;
+      width: 300px;
+    }
+    .login-box h2 { margin-bottom: 20px; }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background: #c00;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .login-box button:hover { background: #a00; }
+    .error { color: red; font-size: 0.9em; }
 
-  function renderList(key) {
-    const listId = key + "List";
-    const list = document.getElementById(listId);
-    if (!list) return;
-    list.innerHTML = "";
-    let data = JSON.parse(localStorage.getItem(key)) || [];
-    data.forEach((item, idx) => {
-      const li = document.createElement("li");
-      let fileLinks = "";
-      if (item.files && item.files.length) {
-        fileLinks = item.files.map(f => {
-          if (f.type.startsWith("image/")) {
-            return `<br><img src="${f.data}" alt="${f.name}" style="max-width:100px; margin-top:5px;">`;
-          } else {
-            return `<br><a href="${f.data}" download="${f.name}">${f.name}</a>`;
-          }
-        }).join("");
+    /* Portal Layout */
+    #portal { display: none; }
+    header {
+      background: #000;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header img.logo { height: 50px; }
+    nav { display: flex; gap: 20px; }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    nav a:hover, nav a.active { background: #c00; }
+    section { display: none; padding: 40px; }
+    section.active { display: block; }
+
+    /* Forms */
+    form {
+      margin-bottom: 20px;
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    form input, form select {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    form button {
+      padding: 10px 15px;
+      background: #c00;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #fff;
+    }
+    form button:hover { background: #a00; }
+    ul { list-style: none; padding: 0; margin-top: 20px; }
+    li { background: #222; margin: 5px 0; padding: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="login">
+    <div class="login-box">
+      <h2>Admin Login</h2>
+      <p id="error" class="error"></p>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button onclick="checkLogin()">Login</button>
+    </div>
+  </div>
+
+  <!-- PORTAL -->
+  <div id="portal">
+    <header>
+      <img src="redfox (3).png" class="logo" alt="Teske Realty Logo">
+      <nav>
+        <a href="#" onclick="showTab('dashboard')" class="active">Dashboard</a>
+        <a href="#" onclick="showTab('repairs')">Repair Requests</a>
+        <a href="#" onclick="showTab('payments')">Rental Payment History</a>
+        <a href="#" onclick="showTab('properties')">Properties</a>
+        <a href="#" onclick="showTab('tenants')">Tenants</a>
+        <a href="#" onclick="showTab('contracts')">Contracts</a>
+      </nav>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="active">
+      <h1>Dashboard</h1>
+      <div id="dashboardContent"></div>
+    </section>
+
+    <!-- REPAIRS -->
+    <section id="repairs">
+      <h1>Repair Requests</h1>
+      <form id="repairForm">
+        <input type="text" id="repairDetails" placeholder="Details" required>
+        <input type="datetime-local" id="repairDate" required>
+        <select id="repairStatus">
+          <option>Not Started</option>
+          <option>In Progress</option>
+          <option>Complete</option>
+        </select>
+        <button type="submit">Save Repair Request</button>
+      </form>
+      <ul id="repairList"></ul>
+    </section>
+
+    <!-- PAYMENTS -->
+    <section id="payments">
+      <h1>Rental Payment History</h1>
+      <form id="paymentForm">
+        <input type="text" id="paymentTenant" placeholder="Tenant Name" required>
+        <input type="number" id="paymentAmount" placeholder="Amount" required>
+        <input type="date" id="paymentDate" required>
+        <button type="submit">Save Payment</button>
+      </form>
+      <ul id="paymentList"></ul>
+    </section>
+
+    <!-- PROPERTIES -->
+    <section id="properties">
+      <h1>Properties</h1>
+      <form id="propertyForm">
+        <input type="text" id="propertyAddress" placeholder="Address" required>
+        <input type="text" id="propertyUnit" placeholder="Unit">
+        <input type="text" id="propertyNotes" placeholder="Notes">
+        <button type="submit">Save Property</button>
+      </form>
+      <ul id="propertyList"></ul>
+    </section>
+
+    <!-- TENANTS -->
+    <section id="tenants">
+      <h1>Tenants</h1>
+      <form id="tenantForm">
+        <input type="text" id="tenantName" placeholder="Name" required>
+        <input type="email" id="tenantEmail" placeholder="Email">
+        <input type="tel" id="tenantPhone" placeholder="Phone">
+        <button type="submit">Save Tenant</button>
+      </form>
+      <ul id="tenantList"></ul>
+    </section>
+
+    <!-- CONTRACTS -->
+    <section id="contracts">
+      <h1>Contracts</h1>
+      <form id="contractForm">
+        <input type="text" id="contractTenant" placeholder="Tenant" required>
+        <input type="text" id="contractProperty" placeholder="Property" required>
+        <input type="date" id="contractStart" required>
+        <input type="date" id="contractEnd" required>
+        <button type="submit">Save Contract</button>
+      </form>
+      <ul id="contractList"></ul>
+    </section>
+  </div>
+
+  <script>
+    const ADMIN_EMAIL = "teskerealtygroup@gmail.com";
+    const ADMIN_PASS = "admin";
+
+    function checkLogin() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("portal").style.display = "block";
+        updateDashboard();
+      } else {
+        document.getElementById("error").textContent = "Invalid email or password!";
       }
-      li.innerHTML = `
-        <strong>${item.details}</strong> | ${item.date} | ${item.status}
-        ${fileLinks}
-        <br><button onclick="editRepair(${idx})">Edit</button>
-      `;
-      list.appendChild(li);
-    });
-  }
+    }
 
-  document.getElementById("repairForm").onsubmit = async e => {
-    e.preventDefault();
+    function showTab(tabId) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+      document.querySelectorAll("nav a").forEach(link => link.classList.remove("active"));
+      event.target.classList.add("active");
+      if (tabId === "dashboard") updateDashboard();
+    }
 
-    const files = [];
-    for (let file of repairFiles.files) {
-      const reader = new FileReader();
-      await new Promise(res => {
-        reader.onload = () => {
-          files.push({ name: file.name, type: file.type, data: reader.result });
-          res();
-        };
-        reader.readAsDataURL(file);
+    function saveData(key, obj) {
+      let data = JSON.parse(localStorage.getItem(key)) || [];
+      data.push(obj);
+      localStorage.setItem(key, JSON.stringify(data));
+      renderList(key);
+      updateDashboard();
+    }
+
+    function renderList(key) {
+      const listId = key + "List";
+      const list = document.getElementById(listId);
+      if (!list) return;
+      list.innerHTML = "";
+      let data = JSON.parse(localStorage.getItem(key)) || [];
+      data.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = Object.values(item).join(" | ");
+        list.appendChild(li);
       });
     }
 
-    const id = repairId.value ? parseInt(repairId.value) : null;
-    saveData("repair", {
-      details: repairDetails.value,
-      date: repairDate.value,
-      status: repairStatus.value,
-      files: files
-    }, id);
+    // Forms
+    document.getElementById("repairForm").onsubmit = e => {
+      e.preventDefault();
+      saveData("repair", {
+        details: repairDetails.value,
+        date: repairDate.value,
+        status: repairStatus.value
+      });
+      e.target.reset();
+    };
 
-    e.target.reset();
-    repairId.value = "";
-  };
+    document.getElementById("paymentForm").onsubmit = e => {
+      e.preventDefault();
+      saveData("payment", {
+        tenant: paymentTenant.value,
+        amount: paymentAmount.value,
+        date: paymentDate.value
+      });
+      e.target.reset();
+    };
 
-  function editRepair(index) {
-    let data = JSON.parse(localStorage.getItem("repair")) || [];
-    const r = data[index];
-    repairId.value = index;
-    repairDetails.value = r.details;
-    repairDate.value = r.date;
-    repairStatus.value = r.status;
-    // Note: cannot auto-fill file input for security, user must reselect if needed
-  }
-</script>
+    document.getElementById("propertyForm").onsubmit = e => {
+      e.preventDefault();
+      saveData("property", {
+        address: propertyAddress.value,
+        unit: propertyUnit.value,
+        notes: propertyNotes.value
+      });
+      e.target.reset();
+    };
+
+    document.getElementById("tenantForm").onsubmit = e => {
+      e.preventDefault();
+      saveData("tenant", {
+        name: tenantName.value,
+        email: tenantEmail.value,
+        phone: tenantPhone.value
+      });
+      e.target.reset();
+    };
+
+    document.getElementById("contractForm").onsubmit = e => {
+      e.preventDefault();
+      saveData("contract", {
+        tenant: contractTenant.value,
+        property: contractProperty.value,
+        start: contractStart.value,
+        end: contractEnd.value
+      });
+      e.target.reset();
+    };
+
+    function updateDashboard() {
+      const repairs = JSON.parse(localStorage.getItem("repair")) || [];
+      const payments = JSON.parse(localStorage.getItem("payment")) || [];
+      const properties = JSON.parse(localStorage.getItem("property")) || [];
+      const tenants = JSON.parse(localStorage.getItem("tenant")) || [];
+      const contracts = JSON.parse(localStorage.getItem("contract")) || [];
+
+      let lastPayment = payments.length ? payments[payments.length-1] : null;
+
+      document.getElementById("dashboardContent").innerHTML = `
+        <p><strong>Repair Requests:</strong> ${repairs.length}</p>
+        <p><strong>Last Rental Payment:</strong> ${lastPayment ? lastPayment.tenant + " - $" + lastPayment.amount + " on " + lastPayment.date : "None recorded"}</p>
+        <p><strong>Properties:</strong> ${properties.length}</p>
+        <p><strong>Tenants:</strong> ${tenants.length} ${tenants.length ? "(" + tenants.map(t=>t.name).join(", ") + ")" : ""}</p>
+        <p><strong>Active Contracts:</strong> ${contracts.length}</p>
+      `;
+    }
+
+    // Render lists on load
+    ["repair","payment","property","tenant","contract"].forEach(renderList);
+  </script>
+</body>
+</html>
