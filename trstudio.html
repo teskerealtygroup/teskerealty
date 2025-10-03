@@ -92,7 +92,26 @@
     }
     form button:hover { background: #a00; }
     ul { list-style: none; padding: 0; margin-top: 20px; }
-    li { background: #222; margin: 5px 0; padding: 10px; border-radius: 5px; }
+    li {
+      background: #222;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    li span { flex: 1; }
+    li button {
+      margin-left: 5px;
+      padding: 5px 8px;
+      background: #c00;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      color: #fff;
+    }
+    li button:hover { background: #a00; }
   </style>
 </head>
 <body>
@@ -206,86 +225,15 @@
     function checkLogin() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("portal").style.display = "block";
+      if(email===ADMIN_EMAIL && password===ADMIN_PASS){
+        document.getElementById("login").style.display="none";
+        document.getElementById("portal").style.display="block";
         updateDashboard();
       } else {
-        document.getElementById("error").textContent = "Invalid email or password!";
+        document.getElementById("error").textContent="Invalid email or password!";
       }
     }
 
-    function showTab(tabId) {
-      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
-      document.getElementById(tabId).classList.add("active");
-      document.querySelectorAll("nav a").forEach(link => link.classList.remove("active"));
-      event.target.classList.add("active");
-      if (tabId === "dashboard") updateDashboard();
-    }
-
-    function saveData(key, obj) {
-      let data = JSON.parse(localStorage.getItem(key)) || [];
-      data.push(obj);
-      localStorage.setItem(key, JSON.stringify(data));
-      renderList(key);
-      updateDashboard();
-    }
-
-    function renderList(key) {
-      const listId = key + "List";
-      const list = document.getElementById(listId);
-      if (!list) return;
-      list.innerHTML = "";
-      let data = JSON.parse(localStorage.getItem(key)) || [];
-      data.forEach(item => {
-        const li = document.createElement("li");
-        let filePart = item.fileName ? ` | File: ${item.fileName}` : "";
-        li.textContent = Object.values(item).filter(v=>v!=="undefined").join(" | ") + filePart;
-        list.appendChild(li);
-      });
-    }
-
-    // Forms
-    function handleFormSubmit(formId, key, fields) {
-      document.getElementById(formId).onsubmit = e => {
-        e.preventDefault();
-        let obj = {};
-        fields.forEach(f => obj[f] = document.getElementById(f).value);
-        // handle file
-        const fileInput = document.getElementById(fields.find(f=>f.toLowerCase().includes("file")));
-        if (fileInput && fileInput.files.length > 0) {
-          obj.fileName = fileInput.files[0].name;
-        }
-        saveData(key, obj);
-        e.target.reset();
-      };
-    }
-
-    handleFormSubmit("repairForm","repair",["repairDetails","repairDate","repairStatus","repairFile"]);
-    handleFormSubmit("paymentForm","payment",["paymentTenant","paymentAmount","paymentDate","paymentFile"]);
-    handleFormSubmit("propertyForm","property",["propertyAddress","propertyUnit","propertyNotes","propertyFile"]);
-    handleFormSubmit("tenantForm","tenant",["tenantName","tenantEmail","tenantPhone","tenantFile"]);
-    handleFormSubmit("contractForm","contract",["contractTenant","contractProperty","contractStart","contractEnd","contractFile"]);
-
-    function updateDashboard() {
-      const repairs = JSON.parse(localStorage.getItem("repair")) || [];
-      const payments = JSON.parse(localStorage.getItem("payment")) || [];
-      const properties = JSON.parse(localStorage.getItem("property")) || [];
-      const tenants = JSON.parse(localStorage.getItem("tenant")) || [];
-      const contracts = JSON.parse(localStorage.getItem("contract")) || [];
-
-      let lastPayment = payments.length ? payments[payments.length-1] : null;
-
-      document.getElementById("dashboardContent").innerHTML = `
-        <p><strong>Repair Requests:</strong> ${repairs.length}</p>
-        <p><strong>Last Rental Payment:</strong> ${lastPayment ? lastPayment.tenant + " - $" + lastPayment.amount + " on " + lastPayment.date : "None recorded"}</p>
-        <p><strong>Properties:</strong> ${properties.length}</p>
-        <p><strong>Tenants:</strong> ${tenants.length} ${tenants.length ? "(" + tenants.map(t=>t.name).join(", ") + ")" : ""}</p>
-        <p><strong>Active Contracts:</strong> ${contracts.length}</p>
-      `;
-    }
-
-    ["repair","payment","property","tenant","contract"].forEach(renderList);
-  </script>
-</body>
-</html>
+    function showTab(tabId){
+      document.querySelectorAll("section").forEach(sec=>sec.classList.remove("active"));
+      document.getElement
