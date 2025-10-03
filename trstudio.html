@@ -77,46 +77,32 @@
       padding: 40px;
     }
     section.active { display: block; }
-
-    .form-box {
-      background: #222;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    .form-box input, .form-box select {
+    form input, form select, form textarea {
       display: block;
-      width: 100%;
       margin: 10px 0;
-      padding: 8px;
+      padding: 10px;
+      width: 100%;
       border-radius: 5px;
       border: none;
     }
-    .form-box button {
+    form button {
+      padding: 10px 20px;
       background: #c00;
       color: #fff;
       border: none;
-      padding: 10px 20px;
       border-radius: 5px;
       cursor: pointer;
     }
-    .form-box button:hover { background: #a00; }
-    .entry {
-      background: #333;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-    .entry button {
-      margin-right: 10px;
+    form button:hover { background: #a00; }
+    ul { list-style: none; margin-top: 15px; }
+    li { background: #333; padding: 10px; margin: 10px 0; border-radius: 5px; }
+    .entry-actions button {
+      margin-left: 10px;
       background: #555;
-      color: #fff;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
     }
-    .entry button:hover { background: #777; }
+    .entry-actions button:hover {
+      background: #777;
+    }
   </style>
 </head>
 <body>
@@ -146,84 +132,90 @@
       </nav>
     </header>
 
+    <!-- Dashboard -->
     <section id="dashboard" class="active">
       <h1>Dashboard</h1>
-      <div id="dashboardContent">
-        <p>Snapshot of activity will appear here.</p>
-      </div>
+      <ul>
+        <li>Total Repair Requests: <span id="repairCount">0</span></li>
+        <li>Last Rental Payment: <span id="lastPayment">None</span></li>
+        <li>Total Properties: <span id="propertyCount">0</span></li>
+        <li>Total Tenants: <span id="tenantCount">0</span> (<span id="tenantNames">-</span>)</li>
+        <li>Active Contracts: <span id="contractCount">0</span></li>
+      </ul>
     </section>
 
-    <!-- REPAIR REQUESTS -->
+    <!-- Repairs -->
     <section id="repairs">
       <h1>Repair Requests</h1>
-      <div class="form-box">
-        <input type="text" id="repairDetails" placeholder="Repair details">
-        <input type="datetime-local" id="repairDate">
+      <form id="repairForm">
+        <input type="text" id="repairDetails" placeholder="Repair details" required>
+        <input type="datetime-local" id="repairDate" required>
         <select id="repairStatus">
           <option>Not Started</option>
           <option>In Progress</option>
           <option>Complete</option>
         </select>
-        <input type="file" id="repairFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="addEntry('repairs')">Save Repair Request</button>
-      </div>
-      <div id="repairsList"></div>
+        <input type="file" id="repairFile" accept=".jpg,.jpeg,.png,.pdf" multiple>
+        <button type="submit">Save</button>
+      </form>
+      <ul id="repairList"></ul>
     </section>
 
-    <!-- PAYMENTS -->
+    <!-- Payments -->
     <section id="payments">
       <h1>Rental Payment History</h1>
-      <div class="form-box">
-        <input type="text" id="paymentDetails" placeholder="Payment details">
-        <input type="datetime-local" id="paymentDate">
-        <input type="file" id="paymentFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="addEntry('payments')">Save Payment</button>
-      </div>
-      <div id="paymentsList"></div>
+      <form id="paymentForm">
+        <input type="text" id="paymentDetails" placeholder="Payment details" required>
+        <input type="date" id="paymentDate" required>
+        <input type="file" id="paymentFile" accept=".jpg,.jpeg,.png,.pdf" multiple>
+        <button type="submit">Save</button>
+      </form>
+      <ul id="paymentList"></ul>
     </section>
 
-    <!-- PROPERTIES -->
+    <!-- Properties -->
     <section id="properties">
       <h1>Properties</h1>
-      <div class="form-box">
-        <input type="text" id="propertyDetails" placeholder="Property details">
-        <input type="file" id="propertyFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="addEntry('properties')">Save Property</button>
-      </div>
-      <div id="propertiesList"></div>
+      <form id="propertyForm">
+        <input type="text" id="propertyDetails" placeholder="Property details" required>
+        <input type="file" id="propertyFile" accept=".jpg,.jpeg,.png,.pdf" multiple>
+        <button type="submit">Save</button>
+      </form>
+      <ul id="propertyList"></ul>
     </section>
 
-    <!-- TENANTS -->
+    <!-- Tenants -->
     <section id="tenants">
       <h1>Tenants</h1>
-      <div class="form-box">
-        <input type="text" id="tenantName" placeholder="Tenant name">
-        <input type="text" id="tenantDetails" placeholder="Tenant details">
-        <input type="file" id="tenantFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="addEntry('tenants')">Save Tenant</button>
-      </div>
-      <div id="tenantsList"></div>
+      <form id="tenantForm">
+        <input type="text" id="tenantName" placeholder="Tenant name" required>
+        <input type="file" id="tenantFile" accept=".jpg,.jpeg,.png,.pdf" multiple>
+        <button type="submit">Save</button>
+      </form>
+      <ul id="tenantList"></ul>
     </section>
 
-    <!-- CONTRACTS -->
+    <!-- Contracts -->
     <section id="contracts">
       <h1>Contracts</h1>
-      <div class="form-box">
-        <input type="text" id="contractDetails" placeholder="Contract details">
-        <input type="file" id="contractFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="addEntry('contracts')">Save Contract</button>
-      </div>
-      <div id="contractsList"></div>
+      <form id="contractForm">
+        <input type="text" id="contractDetails" placeholder="Contract details" required>
+        <input type="file" id="contractFile" accept=".jpg,.jpeg,.png,.pdf" multiple>
+        <button type="submit">Save</button>
+      </form>
+      <ul id="contractList"></ul>
     </section>
   </div>
 
   <script>
+    // Hardcoded credentials
     const ADMIN_EMAIL = "teskerealtygroup@gmail.com";
     const ADMIN_PASS = "admin";
 
     function checkLogin() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
+
       if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
         document.getElementById("login").style.display = "none";
         document.getElementById("portal").style.display = "block";
@@ -238,107 +230,81 @@
 
       document.querySelectorAll("nav a").forEach(link => link.classList.remove("active"));
       event.target.classList.add("active");
+      updateDashboard();
     }
 
-    function addEntry(tab) {
-      const list = document.getElementById(tab + "List");
-      const details = document.getElementById(tab.replace(/s$/, '') + "Details")?.value || "";
-      const date = document.getElementById(tab.replace(/s$/, '') + "Date")?.value || "";
-      const status = document.getElementById(tab.replace(/s$/, '') + "Status")?.value || "";
-      const fileInput = document.getElementById(tab.replace(/s$/, '') + "File");
-      const fileName = fileInput?.files[0]?.name || "";
+    // Store data
+    let repairs = [];
+    let payments = [];
+    let properties = [];
+    let tenants = [];
+    let contracts = [];
 
-      const entry = document.createElement("div");
-      entry.className = "entry";
-      entry.dataset.details = details;
-      entry.dataset.date = date;
-      entry.dataset.status = status;
-      entry.dataset.file = fileName;
+    // Add + edit + delete generic function
+    function createListHandler(formId, listId, array, fields) {
+      document.getElementById(formId).addEventListener("submit", e => {
+        e.preventDefault();
+        const entry = {};
+        fields.forEach(f => {
+          let input = document.getElementById(f);
+          entry[f] = input.type === "file" ? Array.from(input.files).map(file => file.name) : input.value;
+          input.value = "";
+        });
+        array.push(entry);
+        renderList(listId, array, fields);
+        updateDashboard();
+      });
 
-      entry.innerHTML = `
-        <p><strong>Details:</strong> ${details}</p>
-        ${date ? `<p><strong>Date:</strong> ${date}</p>` : ""}
-        ${status ? `<p><strong>Status:</strong> ${status}</p>` : ""}
-        ${fileName ? `<p><strong>File:</strong> ${fileName}</p>` : ""}
-        <button onclick="editEntry(this, '${tab}')">Edit</button>
-        <button onclick="deleteEntry(this)">Delete</button>
-      `;
-      list.appendChild(entry);
-
-      // clear inputs
-      if(details) document.getElementById(tab.replace(/s$/, '') + "Details").value = "";
-      if(date) document.getElementById(tab.replace(/s$/, '') + "Date").value = "";
-      if(status) document.getElementById(tab.replace(/s$/, '') + "Status").value = "";
-      if(fileInput) fileInput.value = "";
+      function renderList(listId, array, fields) {
+        const ul = document.getElementById(listId);
+        ul.innerHTML = "";
+        array.forEach((entry, index) => {
+          const li = document.createElement("li");
+          li.innerHTML = fields.map(f => `<strong>${f}:</strong> ${Array.isArray(entry[f]) ? entry[f].join(", ") : entry[f]}`).join("<br>");
+          const actions = document.createElement("div");
+          actions.className = "entry-actions";
+          const editBtn = document.createElement("button");
+          editBtn.textContent = "Edit";
+          editBtn.onclick = () => {
+            fields.forEach(f => {
+              let input = document.getElementById(f);
+              if (input.type !== "file") input.value = entry[f];
+            });
+            array.splice(index, 1);
+            renderList(listId, array, fields);
+          };
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Delete";
+          delBtn.onclick = () => {
+            array.splice(index, 1);
+            renderList(listId, array, fields);
+            updateDashboard();
+          };
+          actions.appendChild(editBtn);
+          actions.appendChild(delBtn);
+          li.appendChild(actions);
+          ul.appendChild(li);
+        });
+      }
     }
 
-    function editEntry(btn, tab) {
-      const entry = btn.parentElement;
+    // Hook forms
+    createListHandler("repairForm", "repairList", repairs, ["repairDetails","repairDate","repairStatus","repairFile"]);
+    createListHandler("paymentForm", "paymentList", payments, ["paymentDetails","paymentDate","paymentFile"]);
+    createListHandler("propertyForm", "propertyList", properties, ["propertyDetails","propertyFile"]);
+    createListHandler("tenantForm", "tenantList", tenants, ["tenantName","tenantFile"]);
+    createListHandler("contractForm", "contractList", contracts, ["contractDetails","contractFile"]);
 
-      // grab old values
-      const oldDetails = entry.dataset.details || "";
-      const oldDate = entry.dataset.date || "";
-      const oldStatus = entry.dataset.status || "";
-
-      // build editable form inline
-      entry.innerHTML = `
-        <input type="text" value="${oldDetails}" id="editDetails">
-        ${oldDate ? `<input type="datetime-local" value="${oldDate}" id="editDate">` : ""}
-        ${oldStatus ? `
-          <select id="editStatus">
-            <option ${oldStatus==="Not Started"?"selected":""}>Not Started</option>
-            <option ${oldStatus==="In Progress"?"selected":""}>In Progress</option>
-            <option ${oldStatus==="Complete"?"selected":""}>Complete</option>
-          </select>` : ""}
-        <input type="file" id="editFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="saveEdit(this, '${tab}')">Save</button>
-        <button onclick="cancelEdit(this, '${tab}')">Cancel</button>
-      `;
-    }
-
-    function saveEdit(btn, tab) {
-      const entry = btn.parentElement;
-      const newDetails = entry.querySelector("#editDetails")?.value || "";
-      const newDate = entry.querySelector("#editDate")?.value || "";
-      const newStatus = entry.querySelector("#editStatus")?.value || "";
-      const fileInput = entry.querySelector("#editFile");
-      const fileName = fileInput?.files[0]?.name || entry.dataset.file || "";
-
-      entry.dataset.details = newDetails;
-      entry.dataset.date = newDate;
-      entry.dataset.status = newStatus;
-      entry.dataset.file = fileName;
-
-      entry.innerHTML = `
-        <p><strong>Details:</strong> ${newDetails}</p>
-        ${newDate ? `<p><strong>Date:</strong> ${newDate}</p>` : ""}
-        ${newStatus ? `<p><strong>Status:</strong> ${newStatus}</p>` : ""}
-        ${fileName ? `<p><strong>File:</strong> ${fileName}</p>` : ""}
-        <button onclick="editEntry(this, '${tab}')">Edit</button>
-        <button onclick="deleteEntry(this)">Delete</button>
-      `;
-    }
-
-    function cancelEdit(btn, tab) {
-      const entry = btn.parentElement;
-      const details = entry.dataset.details || "";
-      const date = entry.dataset.date || "";
-      const status = entry.dataset.status || "";
-      const fileName = entry.dataset.file || "";
-
-      entry.innerHTML = `
-        <p><strong>Details:</strong> ${details}</p>
-        ${date ? `<p><strong>Date:</strong> ${date}</p>` : ""}
-        ${status ? `<p><strong>Status:</strong> ${status}</p>` : ""}
-        ${fileName ? `<p><strong>File:</strong> ${fileName}</p>` : ""}
-        <button onclick="editEntry(this, '${tab}')">Edit</button>
-        <button onclick="deleteEntry(this)">Delete</button>
-      `;
-    }
-
-    function deleteEntry(btn) {
-      btn.parentElement.remove();
+    // Dashboard updater
+    function updateDashboard() {
+      document.getElementById("repairCount").textContent = repairs.length;
+      document.getElementById("lastPayment").textContent = payments.length ? payments[payments.length-1].paymentDetails + " (" + payments[payments.length-1].paymentDate + ")" : "None";
+      document.getElementById("propertyCount").textContent = properties.length;
+      document.getElementById("tenantCount").textContent = tenants.length;
+      document.getElementById("tenantNames").textContent = tenants.length ? tenants.map(t=>t.tenantName).join(", ") : "-";
+      document.getElementById("contractCount").textContent = contracts.length;
     }
   </script>
+
 </body>
 </html>
