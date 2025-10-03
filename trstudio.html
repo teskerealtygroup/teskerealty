@@ -2,266 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>RedFox Property Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Tab Form</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: #eee;
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .tab {
+      overflow: hidden;
+      border-bottom: 1px solid #ccc;
+      background-color: #f1f1f1;
     }
-    header {
-      background-color: #222;
-      color: #fff;
-      padding: 15px;
-      display: flex;
-      align-items: center;
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
     }
-    header img {
-      height: 40px;
-      margin-right: 10px;
-    }
-    .sidebar {
-      height: 100vh;
-      width: 220px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: #1a1a1a;
-      padding-top: 60px;
-    }
-    .sidebar a {
-      display: block;
-      padding: 12px;
-      color: #ddd;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
-    .sidebar a:hover, .sidebar a.active {
-      background-color: #e63946;
-      color: #fff;
-    }
-    .content {
-      margin-left: 220px;
+    .tab button:hover { background-color: #ddd; }
+    .tab button.active { background-color: #ccc; }
+    .tabcontent {
+      display: none;
       padding: 20px;
+      border: 1px solid #ccc;
+      border-top: none;
     }
-    h2 {
-      color: #e63946;
-    }
-    .form-section {
-      margin-bottom: 20px;
-      background: #222;
-      padding: 15px;
-      border-radius: 8px;
-    }
-    label {
-      display: block;
-      margin: 8px 0 4px;
-    }
-    input, select, textarea {
+    form label { display: block; margin-top: 10px; }
+    form input, form textarea {
       width: 100%;
       padding: 8px;
-      margin-bottom: 12px;
-      border: none;
-      border-radius: 4px;
+      margin-top: 5px;
+      box-sizing: border-box;
     }
-    input[type="file"] {
-      background: #111;
-      color: #ccc;
-    }
-    button {
-      background-color: #e63946;
-      color: #fff;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #c72c3b;
-    }
-    .entry {
-      background: #333;
-      padding: 12px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
-    .entry a {
-      color: #4da6ff;
-      text-decoration: underline;
-      display: block;
-    }
-    img.preview {
-      max-width: 150px;
-      display: block;
-      margin-top: 8px;
-      border-radius: 4px;
-    }
+    form button { margin-top: 15px; padding: 10px 20px; }
   </style>
 </head>
 <body>
-  <header>
-    <img src="redfox (3).png" alt="Logo">
-    <h1>RedFox Property Manager</h1>
-  </header>
 
-  <div class="sidebar">
-    <a href="#" class="tablink active" onclick="openTab(event, 'dashboard')">Dashboard</a>
-    <a href="#" class="tablink" onclick="openTab(event, 'repairs')">Repair Requests</a>
-    <a href="#" class="tablink" onclick="openTab(event, 'payments')">Rental Payments</a>
-    <a href="#" class="tablink" onclick="openTab(event, 'leases')">Lease Agreements</a>
-    <a href="#" class="tablink" onclick="openTab(event, 'tenants')">Tenant Info</a>
-  </div>
+<h2 style="text-align:center;">Multi-Tab Form</h2>
 
-  <div class="content">
-    <!-- Dashboard -->
-    <div id="dashboard" class="tabcontent" style="display:block">
-      <h2>Dashboard</h2>
-      <div id="dashboardContent"></div>
-    </div>
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'General')">General</button>
+  <button class="tablinks" onclick="openTab(event, 'Financial')">Financial</button>
+  <button class="tablinks" onclick="openTab(event, 'Legal')">Legal</button>
+  <button class="tablinks" onclick="openTab(event, 'Other')">Other</button>
+</div>
 
-    <!-- Repairs -->
-    <div id="repairs" class="tabcontent" style="display:none">
-      <h2>Repair Requests</h2>
-      <div class="form-section">
-        <label>Details</label>
-        <textarea id="repairDetails"></textarea>
-        <label>Date/Time</label>
-        <input type="datetime-local" id="repairDate">
-        <label>Status</label>
-        <select id="repairStatus">
-          <option>Not Started</option>
-          <option>In Progress</option>
-          <option>Complete</option>
-        </select>
-        <label>Attach File (jpg, jpeg, pdf)</label>
-        <input type="file" id="repairFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="saveEntry('repairs')">Save</button>
-      </div>
-      <div id="repairsList"></div>
-    </div>
+<!-- General Tab -->
+<div id="General" class="tabcontent">
+  <h3>General Information</h3>
+  <form action="/submit-general" method="POST" enctype="multipart/form-data">
+    <label for="genName">Full Name</label>
+    <input type="text" id="genName" name="genName" required>
 
-    <!-- Payments -->
-    <div id="payments" class="tabcontent" style="display:none">
-      <h2>Rental Payment History</h2>
-      <div class="form-section">
-        <label>Payment Details</label>
-        <textarea id="paymentDetails"></textarea>
-        <label>Date</label>
-        <input type="date" id="paymentDate">
-        <label>Attach File (jpg, jpeg, pdf)</label>
-        <input type="file" id="paymentFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="saveEntry('payments')">Save</button>
-      </div>
-      <div id="paymentsList"></div>
-    </div>
+    <label for="genEmail">Email</label>
+    <input type="email" id="genEmail" name="genEmail" required>
 
-    <!-- Leases -->
-    <div id="leases" class="tabcontent" style="display:none">
-      <h2>Lease Agreements</h2>
-      <div class="form-section">
-        <label>Lease Details</label>
-        <textarea id="leaseDetails"></textarea>
-        <label>Start Date</label>
-        <input type="date" id="leaseStart">
-        <label>End Date</label>
-        <input type="date" id="leaseEnd">
-        <label>Attach File (jpg, jpeg, pdf)</label>
-        <input type="file" id="leaseFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="saveEntry('leases')">Save</button>
-      </div>
-      <div id="leasesList"></div>
-    </div>
+    <label for="genUpload">Upload Documents (JPEG, JPG, PDF)</label>
+    <input type="file" id="genUpload" name="genUpload[]" accept=".jpeg,.jpg,.pdf" multiple>
 
-    <!-- Tenants -->
-    <div id="tenants" class="tabcontent" style="display:none">
-      <h2>Tenant Info</h2>
-      <div class="form-section">
-        <label>Tenant Name</label>
-        <input type="text" id="tenantName">
-        <label>Contact Info</label>
-        <textarea id="tenantContact"></textarea>
-        <label>Attach File (jpg, jpeg, pdf)</label>
-        <input type="file" id="tenantFile" accept=".jpg,.jpeg,.pdf">
-        <button onclick="saveEntry('tenants')">Save</button>
-      </div>
-      <div id="tenantsList"></div>
-    </div>
-  </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
 
-  <script>
-    function openTab(evt, tabId) {
-      document.querySelectorAll('.tabcontent').forEach(c => c.style.display = "none");
-      document.querySelectorAll('.tablink').forEach(b => b.classList.remove("active"));
-      document.getElementById(tabId).style.display = "block";
-      evt.currentTarget.classList.add("active");
-      updateDashboard();
-    }
+<!-- Financial Tab -->
+<div id="Financial" class="tabcontent">
+  <h3>Financial Information</h3>
+  <form action="/submit-financial" method="POST" enctype="multipart/form-data">
+    <label for="finIncome">Annual Income</label>
+    <input type="number" id="finIncome" name="finIncome" required>
 
-    function saveEntry(type) {
-      let details, date, status, fileInput;
-      let listId = type + "List";
-      let entry = document.createElement("div");
-      entry.className = "entry";
+    <label for="finDebt">Current Debts</label>
+    <input type="text" id="finDebt" name="finDebt">
 
-      if (type === "repairs") {
-        details = document.getElementById("repairDetails").value;
-        date = document.getElementById("repairDate").value;
-        status = document.getElementById("repairStatus").value;
-        fileInput = document.getElementById("repairFile");
-        entry.innerHTML = `<b>Details:</b> ${details}<br><b>Date:</b> ${date}<br><b>Status:</b> ${status}`;
-      }
-      else if (type === "payments") {
-        details = document.getElementById("paymentDetails").value;
-        date = document.getElementById("paymentDate").value;
-        fileInput = document.getElementById("paymentFile");
-        entry.innerHTML = `<b>Payment:</b> ${details}<br><b>Date:</b> ${date}`;
-      }
-      else if (type === "leases") {
-        details = document.getElementById("leaseDetails").value;
-        let start = document.getElementById("leaseStart").value;
-        let end = document.getElementById("leaseEnd").value;
-        fileInput = document.getElementById("leaseFile");
-        entry.innerHTML = `<b>Lease:</b> ${details}<br><b>Start:</b> ${start} <b>End:</b> ${end}`;
-      }
-      else if (type === "tenants") {
-        let name = document.getElementById("tenantName").value;
-        let contact = document.getElementById("tenantContact").value;
-        fileInput = document.getElementById("tenantFile");
-        entry.innerHTML = `<b>Name:</b> ${name}<br><b>Contact:</b> ${contact}`;
-      }
+    <label for="finUpload">Upload Financial Docs (JPEG, JPG, PDF)</label>
+    <input type="file" id="finUpload" name="finUpload[]" accept=".jpeg,.jpg,.pdf" multiple>
 
-      if (fileInput && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          if (file.type.includes("pdf")) {
-            entry.innerHTML += `<br><a href="${e.target.result}" target="_blank">View PDF</a>`;
-          } else {
-            entry.innerHTML += `<br><img class="preview" src="${e.target.result}" alt="Uploaded">`;
-          }
-        }
-        reader.readAsDataURL(file);
-      }
+    <button type="submit">Submit</button>
+  </form>
+</div>
 
-      document.getElementById(listId).appendChild(entry);
-      updateDashboard();
-    }
+<!-- Legal Tab -->
+<div id="Legal" class="tabcontent">
+  <h3>Legal Information</h3>
+  <form action="/submit-legal" method="POST" enctype="multipart/form-data">
+    <label for="legStatus">Legal Status</label>
+    <input type="text" id="legStatus" name="legStatus">
 
-    function updateDashboard() {
-      const dashboard = document.getElementById("dashboardContent");
-      const repairs = document.getElementById("repairsList").children.length;
-      const payments = document.getElementById("paymentsList").children.length;
-      const leases = document.getElementById("leasesList").children.length;
-      const tenants = document.getElementById("tenantsList").children.length;
+    <label for="legNotes">Additional Notes</label>
+    <textarea id="legNotes" name="legNotes"></textarea>
 
-      dashboard.innerHTML = `
-        <div class="entry"><b>Repair Requests:</b> ${repairs}</div>
-        <div class="entry"><b>Payments Recorded:</b> ${payments}</div>
-        <div class="entry"><b>Leases:</b> ${leases}</div>
-        <div class="entry"><b>Tenants:</b> ${tenants}</div>
-      `;
-    }
-  </script>
+    <label for="legUpload">Upload Legal Docs (JPEG, JPG, PDF)</label>
+    <input type="file" id="legUpload" name="legUpload[]" accept=".jpeg,.jpg,.pdf" multiple>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<!-- Other Tab -->
+<div id="Other" class="tabcontent">
+  <h3>Other Information</h3>
+  <form action="/submit-other" method="POST" enctype="multipart/form-data">
+    <label for="othDetails">Other Details</label>
+    <textarea id="othDetails" name="othDetails"></textarea>
+
+    <label for="othUpload">Upload Additional Docs (JPEG, JPG, PDF)</label>
+    <input type="file" id="othUpload" name="othUpload[]" accept=".jpeg,.jpg,.pdf" multiple>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+document.getElementsByClassName("tablinks")[0].click();
+</script>
+
 </body>
 </html>
