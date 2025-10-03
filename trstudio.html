@@ -2,315 +2,266 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TR: LandLord Studio</title>
+  <title>RedFox Property Manager</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { background: #1a1a1a; color: #fff; }
-
-    /* Login screen */
-    #login {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(to bottom, #c00, #1a1a1a);
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #eee;
     }
-    .login-box {
-      background: #000;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #000;
-      text-align: center;
-      width: 300px;
-    }
-    .login-box h2 { margin-bottom: 20px; }
-    .login-box input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 5px;
-    }
-    .login-box button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      background: #c00;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1em;
-    }
-    .login-box button:hover { background: #a00; }
-    .error { color: red; font-size: 0.9em; }
-
-    /* Portal Layout */
-    #portal { display: none; }
     header {
-      background: #000;
+      background-color: #222;
+      color: #fff;
       padding: 15px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
     }
-    header img.logo { height: 50px; }
-    nav { display: flex; gap: 20px; }
-    nav a {
-      color: #fff;
+    header img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .sidebar {
+      height: 100vh;
+      width: 220px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #1a1a1a;
+      padding-top: 60px;
+    }
+    .sidebar a {
+      display: block;
+      padding: 12px;
+      color: #ddd;
       text-decoration: none;
-      padding: 10px 15px;
-      border-radius: 5px;
       transition: background 0.3s;
     }
-    nav a:hover, nav a.active { background: #c00; }
-    section { display: none; padding: 40px; }
-    section.active { display: block; }
-
-    /* Forms */
-    form {
-      margin-bottom: 20px;
-      background: #111;
-      padding: 20px;
-      border-radius: 10px;
-    }
-    form input, form select {
-      width: 100%;
-      margin: 8px 0;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-    }
-    form button {
-      padding: 10px 15px;
-      background: #c00;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #e63946;
       color: #fff;
     }
-    form button:hover { background: #a00; }
-    ul { list-style: none; padding: 0; margin-top: 20px; }
-    li { background: #222; margin: 5px 0; padding: 10px; border-radius: 5px; }
+    .content {
+      margin-left: 220px;
+      padding: 20px;
+    }
+    h2 {
+      color: #e63946;
+    }
+    .form-section {
+      margin-bottom: 20px;
+      background: #222;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    label {
+      display: block;
+      margin: 8px 0 4px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      border: none;
+      border-radius: 4px;
+    }
+    input[type="file"] {
+      background: #111;
+      color: #ccc;
+    }
+    button {
+      background-color: #e63946;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #c72c3b;
+    }
+    .entry {
+      background: #333;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .entry a {
+      color: #4da6ff;
+      text-decoration: underline;
+      display: block;
+    }
+    img.preview {
+      max-width: 150px;
+      display: block;
+      margin-top: 8px;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
+  <header>
+    <img src="redfox (3).png" alt="Logo">
+    <h1>RedFox Property Manager</h1>
+  </header>
 
-  <!-- LOGIN SCREEN -->
-  <div id="login">
-    <div class="login-box">
-      <h2>Admin Login</h2>
-      <p id="error" class="error"></p>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button onclick="checkLogin()">Login</button>
-    </div>
+  <div class="sidebar">
+    <a href="#" class="tablink active" onclick="openTab(event, 'dashboard')">Dashboard</a>
+    <a href="#" class="tablink" onclick="openTab(event, 'repairs')">Repair Requests</a>
+    <a href="#" class="tablink" onclick="openTab(event, 'payments')">Rental Payments</a>
+    <a href="#" class="tablink" onclick="openTab(event, 'leases')">Lease Agreements</a>
+    <a href="#" class="tablink" onclick="openTab(event, 'tenants')">Tenant Info</a>
   </div>
 
-  <!-- PORTAL -->
-  <div id="portal">
-    <header>
-      <img src="redfox (3).png" class="logo" alt="Teske Realty Logo">
-      <nav>
-        <a href="#" onclick="showTab('dashboard')" class="active">Dashboard</a>
-        <a href="#" onclick="showTab('repairs')">Repair Requests</a>
-        <a href="#" onclick="showTab('payments')">Rental Payment History</a>
-        <a href="#" onclick="showTab('properties')">Properties</a>
-        <a href="#" onclick="showTab('tenants')">Tenants</a>
-        <a href="#" onclick="showTab('contracts')">Contracts</a>
-      </nav>
-    </header>
-
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="active">
-      <h1>Dashboard</h1>
+  <div class="content">
+    <!-- Dashboard -->
+    <div id="dashboard" class="tabcontent" style="display:block">
+      <h2>Dashboard</h2>
       <div id="dashboardContent"></div>
-    </section>
+    </div>
 
-    <!-- REPAIRS -->
-    <section id="repairs">
-      <h1>Repair Requests</h1>
-      <form id="repairForm">
-        <input type="text" id="repairDetails" placeholder="Details" required>
-        <input type="datetime-local" id="repairDate" required>
+    <!-- Repairs -->
+    <div id="repairs" class="tabcontent" style="display:none">
+      <h2>Repair Requests</h2>
+      <div class="form-section">
+        <label>Details</label>
+        <textarea id="repairDetails"></textarea>
+        <label>Date/Time</label>
+        <input type="datetime-local" id="repairDate">
+        <label>Status</label>
         <select id="repairStatus">
           <option>Not Started</option>
           <option>In Progress</option>
           <option>Complete</option>
         </select>
-        <button type="submit">Save Repair Request</button>
-      </form>
-      <ul id="repairList"></ul>
-    </section>
+        <label>Attach File (jpg, jpeg, pdf)</label>
+        <input type="file" id="repairFile" accept=".jpg,.jpeg,.pdf">
+        <button onclick="saveEntry('repairs')">Save</button>
+      </div>
+      <div id="repairsList"></div>
+    </div>
 
-    <!-- PAYMENTS -->
-    <section id="payments">
-      <h1>Rental Payment History</h1>
-      <form id="paymentForm">
-        <input type="text" id="paymentTenant" placeholder="Tenant Name" required>
-        <input type="number" id="paymentAmount" placeholder="Amount" required>
-        <input type="date" id="paymentDate" required>
-        <button type="submit">Save Payment</button>
-      </form>
-      <ul id="paymentList"></ul>
-    </section>
+    <!-- Payments -->
+    <div id="payments" class="tabcontent" style="display:none">
+      <h2>Rental Payment History</h2>
+      <div class="form-section">
+        <label>Payment Details</label>
+        <textarea id="paymentDetails"></textarea>
+        <label>Date</label>
+        <input type="date" id="paymentDate">
+        <label>Attach File (jpg, jpeg, pdf)</label>
+        <input type="file" id="paymentFile" accept=".jpg,.jpeg,.pdf">
+        <button onclick="saveEntry('payments')">Save</button>
+      </div>
+      <div id="paymentsList"></div>
+    </div>
 
-    <!-- PROPERTIES -->
-    <section id="properties">
-      <h1>Properties</h1>
-      <form id="propertyForm">
-        <input type="text" id="propertyAddress" placeholder="Address" required>
-        <input type="text" id="propertyUnit" placeholder="Unit">
-        <input type="text" id="propertyNotes" placeholder="Notes">
-        <button type="submit">Save Property</button>
-      </form>
-      <ul id="propertyList"></ul>
-    </section>
+    <!-- Leases -->
+    <div id="leases" class="tabcontent" style="display:none">
+      <h2>Lease Agreements</h2>
+      <div class="form-section">
+        <label>Lease Details</label>
+        <textarea id="leaseDetails"></textarea>
+        <label>Start Date</label>
+        <input type="date" id="leaseStart">
+        <label>End Date</label>
+        <input type="date" id="leaseEnd">
+        <label>Attach File (jpg, jpeg, pdf)</label>
+        <input type="file" id="leaseFile" accept=".jpg,.jpeg,.pdf">
+        <button onclick="saveEntry('leases')">Save</button>
+      </div>
+      <div id="leasesList"></div>
+    </div>
 
-    <!-- TENANTS -->
-    <section id="tenants">
-      <h1>Tenants</h1>
-      <form id="tenantForm">
-        <input type="text" id="tenantName" placeholder="Name" required>
-        <input type="email" id="tenantEmail" placeholder="Email">
-        <input type="tel" id="tenantPhone" placeholder="Phone">
-        <button type="submit">Save Tenant</button>
-      </form>
-      <ul id="tenantList"></ul>
-    </section>
-
-    <!-- CONTRACTS -->
-    <section id="contracts">
-      <h1>Contracts</h1>
-      <form id="contractForm">
-        <input type="text" id="contractTenant" placeholder="Tenant" required>
-        <input type="text" id="contractProperty" placeholder="Property" required>
-        <input type="date" id="contractStart" required>
-        <input type="date" id="contractEnd" required>
-        <button type="submit">Save Contract</button>
-      </form>
-      <ul id="contractList"></ul>
-    </section>
+    <!-- Tenants -->
+    <div id="tenants" class="tabcontent" style="display:none">
+      <h2>Tenant Info</h2>
+      <div class="form-section">
+        <label>Tenant Name</label>
+        <input type="text" id="tenantName">
+        <label>Contact Info</label>
+        <textarea id="tenantContact"></textarea>
+        <label>Attach File (jpg, jpeg, pdf)</label>
+        <input type="file" id="tenantFile" accept=".jpg,.jpeg,.pdf">
+        <button onclick="saveEntry('tenants')">Save</button>
+      </div>
+      <div id="tenantsList"></div>
+    </div>
   </div>
 
   <script>
-    const ADMIN_EMAIL = "teskerealtygroup@gmail.com";
-    const ADMIN_PASS = "admin";
-
-    function checkLogin() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("portal").style.display = "block";
-        updateDashboard();
-      } else {
-        document.getElementById("error").textContent = "Invalid email or password!";
-      }
-    }
-
-    function showTab(tabId) {
-      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
-      document.getElementById(tabId).classList.add("active");
-      document.querySelectorAll("nav a").forEach(link => link.classList.remove("active"));
-      event.target.classList.add("active");
-      if (tabId === "dashboard") updateDashboard();
-    }
-
-    function saveData(key, obj) {
-      let data = JSON.parse(localStorage.getItem(key)) || [];
-      data.push(obj);
-      localStorage.setItem(key, JSON.stringify(data));
-      renderList(key);
+    function openTab(evt, tabId) {
+      document.querySelectorAll('.tabcontent').forEach(c => c.style.display = "none");
+      document.querySelectorAll('.tablink').forEach(b => b.classList.remove("active"));
+      document.getElementById(tabId).style.display = "block";
+      evt.currentTarget.classList.add("active");
       updateDashboard();
     }
 
-    function renderList(key) {
-      const listId = key + "List";
-      const list = document.getElementById(listId);
-      if (!list) return;
-      list.innerHTML = "";
-      let data = JSON.parse(localStorage.getItem(key)) || [];
-      data.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = Object.values(item).join(" | ");
-        list.appendChild(li);
-      });
+    function saveEntry(type) {
+      let details, date, status, fileInput;
+      let listId = type + "List";
+      let entry = document.createElement("div");
+      entry.className = "entry";
+
+      if (type === "repairs") {
+        details = document.getElementById("repairDetails").value;
+        date = document.getElementById("repairDate").value;
+        status = document.getElementById("repairStatus").value;
+        fileInput = document.getElementById("repairFile");
+        entry.innerHTML = `<b>Details:</b> ${details}<br><b>Date:</b> ${date}<br><b>Status:</b> ${status}`;
+      }
+      else if (type === "payments") {
+        details = document.getElementById("paymentDetails").value;
+        date = document.getElementById("paymentDate").value;
+        fileInput = document.getElementById("paymentFile");
+        entry.innerHTML = `<b>Payment:</b> ${details}<br><b>Date:</b> ${date}`;
+      }
+      else if (type === "leases") {
+        details = document.getElementById("leaseDetails").value;
+        let start = document.getElementById("leaseStart").value;
+        let end = document.getElementById("leaseEnd").value;
+        fileInput = document.getElementById("leaseFile");
+        entry.innerHTML = `<b>Lease:</b> ${details}<br><b>Start:</b> ${start} <b>End:</b> ${end}`;
+      }
+      else if (type === "tenants") {
+        let name = document.getElementById("tenantName").value;
+        let contact = document.getElementById("tenantContact").value;
+        fileInput = document.getElementById("tenantFile");
+        entry.innerHTML = `<b>Name:</b> ${name}<br><b>Contact:</b> ${contact}`;
+      }
+
+      if (fileInput && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          if (file.type.includes("pdf")) {
+            entry.innerHTML += `<br><a href="${e.target.result}" target="_blank">View PDF</a>`;
+          } else {
+            entry.innerHTML += `<br><img class="preview" src="${e.target.result}" alt="Uploaded">`;
+          }
+        }
+        reader.readAsDataURL(file);
+      }
+
+      document.getElementById(listId).appendChild(entry);
+      updateDashboard();
     }
-
-    // Forms
-    document.getElementById("repairForm").onsubmit = e => {
-      e.preventDefault();
-      saveData("repair", {
-        details: repairDetails.value,
-        date: repairDate.value,
-        status: repairStatus.value
-      });
-      e.target.reset();
-    };
-
-    document.getElementById("paymentForm").onsubmit = e => {
-      e.preventDefault();
-      saveData("payment", {
-        tenant: paymentTenant.value,
-        amount: paymentAmount.value,
-        date: paymentDate.value
-      });
-      e.target.reset();
-    };
-
-    document.getElementById("propertyForm").onsubmit = e => {
-      e.preventDefault();
-      saveData("property", {
-        address: propertyAddress.value,
-        unit: propertyUnit.value,
-        notes: propertyNotes.value
-      });
-      e.target.reset();
-    };
-
-    document.getElementById("tenantForm").onsubmit = e => {
-      e.preventDefault();
-      saveData("tenant", {
-        name: tenantName.value,
-        email: tenantEmail.value,
-        phone: tenantPhone.value
-      });
-      e.target.reset();
-    };
-
-    document.getElementById("contractForm").onsubmit = e => {
-      e.preventDefault();
-      saveData("contract", {
-        tenant: contractTenant.value,
-        property: contractProperty.value,
-        start: contractStart.value,
-        end: contractEnd.value
-      });
-      e.target.reset();
-    };
 
     function updateDashboard() {
-      const repairs = JSON.parse(localStorage.getItem("repair")) || [];
-      const payments = JSON.parse(localStorage.getItem("payment")) || [];
-      const properties = JSON.parse(localStorage.getItem("property")) || [];
-      const tenants = JSON.parse(localStorage.getItem("tenant")) || [];
-      const contracts = JSON.parse(localStorage.getItem("contract")) || [];
+      const dashboard = document.getElementById("dashboardContent");
+      const repairs = document.getElementById("repairsList").children.length;
+      const payments = document.getElementById("paymentsList").children.length;
+      const leases = document.getElementById("leasesList").children.length;
+      const tenants = document.getElementById("tenantsList").children.length;
 
-      let lastPayment = payments.length ? payments[payments.length-1] : null;
-
-      document.getElementById("dashboardContent").innerHTML = `
-        <p><strong>Repair Requests:</strong> ${repairs.length}</p>
-        <p><strong>Last Rental Payment:</strong> ${lastPayment ? lastPayment.tenant + " - $" + lastPayment.amount + " on " + lastPayment.date : "None recorded"}</p>
-        <p><strong>Properties:</strong> ${properties.length}</p>
-        <p><strong>Tenants:</strong> ${tenants.length} ${tenants.length ? "(" + tenants.map(t=>t.name).join(", ") + ")" : ""}</p>
-        <p><strong>Active Contracts:</strong> ${contracts.length}</p>
+      dashboard.innerHTML = `
+        <div class="entry"><b>Repair Requests:</b> ${repairs}</div>
+        <div class="entry"><b>Payments Recorded:</b> ${payments}</div>
+        <div class="entry"><b>Leases:</b> ${leases}</div>
+        <div class="entry"><b>Tenants:</b> ${tenants}</div>
       `;
     }
-
-    // Render lists on load
-    ["repair","payment","property","tenant","contract"].forEach(renderList);
   </script>
 </body>
 </html>
