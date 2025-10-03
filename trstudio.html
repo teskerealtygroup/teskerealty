@@ -55,8 +55,13 @@
       align-items: center;
       justify-content: space-between;
     }
-    header img.logo { height: 50px; }
-    nav { display: flex; gap: 20px; }
+    header img.logo {
+      height: 50px;
+    }
+    nav {
+      display: flex;
+      gap: 20px;
+    }
     nav a {
       color: #fff;
       text-decoration: none;
@@ -64,54 +69,54 @@
       border-radius: 5px;
       transition: background 0.3s;
     }
-    nav a:hover, nav a.active { background: #c00; }
-    section { display: none; padding: 40px; }
+    nav a:hover, nav a.active {
+      background: #c00;
+    }
+    section {
+      display: none;
+      padding: 40px;
+    }
     section.active { display: block; }
 
-    /* Forms */
-    form {
-      margin-bottom: 20px;
-      background: #111;
+    .form-box {
+      background: #222;
       padding: 20px;
       border-radius: 10px;
+      margin-bottom: 20px;
     }
-    form input, form select {
+    .form-box input, .form-box select {
+      display: block;
       width: 100%;
-      margin: 8px 0;
-      padding: 10px;
+      margin: 10px 0;
+      padding: 8px;
       border-radius: 5px;
       border: none;
     }
-    form button {
-      padding: 10px 15px;
+    .form-box button {
       background: #c00;
+      color: #fff;
       border: none;
+      padding: 10px 20px;
       border-radius: 5px;
       cursor: pointer;
+    }
+    .form-box button:hover { background: #a00; }
+    .entry {
+      background: #333;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .entry button {
+      margin-right: 10px;
+      background: #555;
       color: #fff;
-    }
-    form button:hover { background: #a00; }
-    ul { list-style: none; padding: 0; margin-top: 20px; }
-    li {
-      background: #222;
-      margin: 5px 0;
-      padding: 10px;
-      border-radius: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    li span { flex: 1; }
-    li button {
-      margin-left: 5px;
-      padding: 5px 8px;
-      background: #c00;
       border: none;
-      border-radius: 3px;
+      padding: 5px 10px;
+      border-radius: 5px;
       cursor: pointer;
-      color: #fff;
     }
-    li button:hover { background: #a00; }
+    .entry button:hover { background: #777; }
   </style>
 </head>
 <body>
@@ -132,7 +137,7 @@
     <header>
       <img src="redfox (3).png" class="logo" alt="Teske Realty Logo">
       <nav>
-        <a href="#" onclick="showTab('dashboard')" class="active">Dashboard</a>
+        <a href="#" onclick="showTab('dashboard')">Dashboard</a>
         <a href="#" onclick="showTab('repairs')">Repair Requests</a>
         <a href="#" onclick="showTab('payments')">Rental Payment History</a>
         <a href="#" onclick="showTab('properties')">Properties</a>
@@ -141,80 +146,74 @@
       </nav>
     </header>
 
-    <!-- DASHBOARD -->
     <section id="dashboard" class="active">
       <h1>Dashboard</h1>
-      <div id="dashboardContent"></div>
+      <div id="dashboardContent">
+        <p>Snapshot of activity will appear here.</p>
+      </div>
     </section>
 
-    <!-- REPAIRS -->
+    <!-- REPAIR REQUESTS -->
     <section id="repairs">
       <h1>Repair Requests</h1>
-      <form id="repairForm">
-        <input type="text" id="repairDetails" placeholder="Details" required>
-        <input type="datetime-local" id="repairDate" required>
+      <div class="form-box">
+        <input type="text" id="repairDetails" placeholder="Repair details">
+        <input type="datetime-local" id="repairDate">
         <select id="repairStatus">
           <option>Not Started</option>
           <option>In Progress</option>
           <option>Complete</option>
         </select>
         <input type="file" id="repairFile" accept=".jpg,.jpeg,.pdf">
-        <button type="submit">Save Repair Request</button>
-      </form>
-      <ul id="repairList"></ul>
+        <button onclick="addEntry('repairs')">Save Repair Request</button>
+      </div>
+      <div id="repairsList"></div>
     </section>
 
     <!-- PAYMENTS -->
     <section id="payments">
       <h1>Rental Payment History</h1>
-      <form id="paymentForm">
-        <input type="text" id="paymentTenant" placeholder="Tenant Name" required>
-        <input type="number" id="paymentAmount" placeholder="Amount" required>
-        <input type="date" id="paymentDate" required>
+      <div class="form-box">
+        <input type="text" id="paymentDetails" placeholder="Payment details">
+        <input type="datetime-local" id="paymentDate">
         <input type="file" id="paymentFile" accept=".jpg,.jpeg,.pdf">
-        <button type="submit">Save Payment</button>
-      </form>
-      <ul id="paymentList"></ul>
+        <button onclick="addEntry('payments')">Save Payment</button>
+      </div>
+      <div id="paymentsList"></div>
     </section>
 
     <!-- PROPERTIES -->
     <section id="properties">
       <h1>Properties</h1>
-      <form id="propertyForm">
-        <input type="text" id="propertyAddress" placeholder="Address" required>
-        <input type="text" id="propertyUnit" placeholder="Unit">
-        <input type="text" id="propertyNotes" placeholder="Notes">
+      <div class="form-box">
+        <input type="text" id="propertyDetails" placeholder="Property details">
         <input type="file" id="propertyFile" accept=".jpg,.jpeg,.pdf">
-        <button type="submit">Save Property</button>
-      </form>
-      <ul id="propertyList"></ul>
+        <button onclick="addEntry('properties')">Save Property</button>
+      </div>
+      <div id="propertiesList"></div>
     </section>
 
     <!-- TENANTS -->
     <section id="tenants">
       <h1>Tenants</h1>
-      <form id="tenantForm">
-        <input type="text" id="tenantName" placeholder="Name" required>
-        <input type="email" id="tenantEmail" placeholder="Email">
-        <input type="tel" id="tenantPhone" placeholder="Phone">
+      <div class="form-box">
+        <input type="text" id="tenantName" placeholder="Tenant name">
+        <input type="text" id="tenantDetails" placeholder="Tenant details">
         <input type="file" id="tenantFile" accept=".jpg,.jpeg,.pdf">
-        <button type="submit">Save Tenant</button>
-      </form>
-      <ul id="tenantList"></ul>
+        <button onclick="addEntry('tenants')">Save Tenant</button>
+      </div>
+      <div id="tenantsList"></div>
     </section>
 
     <!-- CONTRACTS -->
     <section id="contracts">
       <h1>Contracts</h1>
-      <form id="contractForm">
-        <input type="text" id="contractTenant" placeholder="Tenant" required>
-        <input type="text" id="contractProperty" placeholder="Property" required>
-        <input type="date" id="contractStart" required>
-        <input type="date" id="contractEnd" required>
+      <div class="form-box">
+        <input type="text" id="contractDetails" placeholder="Contract details">
         <input type="file" id="contractFile" accept=".jpg,.jpeg,.pdf">
-        <button type="submit">Save Contract</button>
-      </form>
-      <ul id="contractList"></ul>
+        <button onclick="addEntry('contracts')">Save Contract</button>
+      </div>
+      <div id="contractsList"></div>
     </section>
   </div>
 
@@ -225,15 +224,58 @@
     function checkLogin() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      if(email===ADMIN_EMAIL && password===ADMIN_PASS){
-        document.getElementById("login").style.display="none";
-        document.getElementById("portal").style.display="block";
-        updateDashboard();
+      if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("portal").style.display = "block";
       } else {
-        document.getElementById("error").textContent="Invalid email or password!";
+        document.getElementById("error").textContent = "Invalid email or password!";
       }
     }
 
-    function showTab(tabId){
-      document.querySelectorAll("section").forEach(sec=>sec.classList.remove("active"));
-      document.getElement
+    function showTab(tabId) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+
+      document.querySelectorAll("nav a").forEach(link => link.classList.remove("active"));
+      event.target.classList.add("active");
+    }
+
+    function addEntry(tab) {
+      const list = document.getElementById(tab + "List");
+      const details = document.getElementById(tab.replace(/s$/, '') + "Details")?.value || "";
+      const date = document.getElementById(tab.replace(/s$/, '') + "Date")?.value || "";
+      const fileInput = document.getElementById(tab.replace(/s$/, '') + "File");
+      const fileName = fileInput?.files[0]?.name || "";
+
+      const entry = document.createElement("div");
+      entry.className = "entry";
+      entry.innerHTML = `
+        <p><strong>Details:</strong> ${details}</p>
+        ${date ? `<p><strong>Date:</strong> ${date}</p>` : ""}
+        ${fileName ? `<p><strong>File:</strong> ${fileName}</p>` : ""}
+        <button onclick="editEntry(this)">Edit</button>
+        <button onclick="deleteEntry(this)">Delete</button>
+      `;
+      list.appendChild(entry);
+
+      // clear inputs
+      if(details) document.getElementById(tab.replace(/s$/, '') + "Details").value = "";
+      if(date) document.getElementById(tab.replace(/s$/, '') + "Date").value = "";
+      if(fileInput) fileInput.value = "";
+    }
+
+    function editEntry(btn) {
+      const entry = btn.parentElement;
+      const detailsText = entry.querySelector("p strong") ? entry.querySelector("p").innerText.replace("Details: ","") : "";
+      const newDetails = prompt("Edit details:", detailsText);
+      if (newDetails !== null) {
+        entry.querySelector("p").innerHTML = "<strong>Details:</strong> " + newDetails;
+      }
+    }
+
+    function deleteEntry(btn) {
+      btn.parentElement.remove();
+    }
+  </script>
+</body>
+</html>
