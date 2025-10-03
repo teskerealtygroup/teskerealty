@@ -3,134 +3,289 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multi-Tab Form</title>
+  <title>TR: LandLord Studio</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .tab {
-      overflow: hidden;
-      border-bottom: 1px solid #ccc;
-      background-color: #f1f1f1;
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background: #1a1a1a; color: #fff; }
+
+    /* Login screen */
+    #login {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #c00, #1a1a1a);
     }
-    .tab button {
-      background-color: inherit;
-      float: left;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      padding: 14px 16px;
-      transition: 0.3s;
-      font-size: 17px;
+    .login-box {
+      background: #000;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+      text-align: center;
+      width: 300px;
     }
-    .tab button:hover { background-color: #ddd; }
-    .tab button.active { background-color: #ccc; }
-    .tabcontent {
-      display: none;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-top: none;
-    }
-    form label { display: block; margin-top: 10px; }
-    form input, form textarea {
+    .login-box h2 { margin-bottom: 20px; }
+    .login-box input {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      box-sizing: border-box;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px;
     }
-    form button { margin-top: 15px; padding: 10px 20px; }
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background: #c00;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .login-box button:hover { background: #a00; }
+    .error { color: red; font-size: 0.9em; }
+
+    /* Portal Layout */
+    #portal { display: none; }
+    header {
+      background: #000;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header img.logo { height: 50px; }
+    nav { display: flex; gap: 20px; }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    nav a:hover, nav a.active { background: #c00; }
+    section { display: none; padding: 40px; }
+    section.active { display: block; }
+
+    /* Forms */
+    form {
+      margin-bottom: 20px;
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    form input, form select {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    form button {
+      padding: 10px 15px;
+      background: #c00;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #fff;
+    }
+    form button:hover { background: #a00; }
+    ul { list-style: none; padding: 0; margin-top: 20px; }
+    li { background: #222; margin: 5px 0; padding: 10px; border-radius: 5px; }
   </style>
 </head>
 <body>
 
-<h2 style="text-align:center;">Multi-Tab Form</h2>
+  <!-- LOGIN SCREEN -->
+  <div id="login">
+    <div class="login-box">
+      <h2>Admin Login</h2>
+      <p id="error" class="error"></p>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button onclick="checkLogin()">Login</button>
+    </div>
+  </div>
 
-<div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'General')">General</button>
-  <button class="tablinks" onclick="openTab(event, 'Financial')">Financial</button>
-  <button class="tablinks" onclick="openTab(event, 'Legal')">Legal</button>
-  <button class="tablinks" onclick="openTab(event, 'Other')">Other</button>
-</div>
+  <!-- PORTAL -->
+  <div id="portal">
+    <header>
+      <img src="redfox (3).png" class="logo" alt="Teske Realty Logo">
+      <nav>
+        <a href="#" onclick="showTab('dashboard')" class="active">Dashboard</a>
+        <a href="#" onclick="showTab('repairs')">Repair Requests</a>
+        <a href="#" onclick="showTab('payments')">Rental Payment History</a>
+        <a href="#" onclick="showTab('properties')">Properties</a>
+        <a href="#" onclick="showTab('tenants')">Tenants</a>
+        <a href="#" onclick="showTab('contracts')">Contracts</a>
+      </nav>
+    </header>
 
-<!-- General Tab -->
-<div id="General" class="tabcontent">
-  <h3>General Information</h3>
-  <form action="/submit-general" method="POST" enctype="multipart/form-data">
-    <label for="genName">Full Name</label>
-    <input type="text" id="genName" name="genName" required>
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="active">
+      <h1>Dashboard</h1>
+      <div id="dashboardContent"></div>
+    </section>
 
-    <label for="genEmail">Email</label>
-    <input type="email" id="genEmail" name="genEmail" required>
+    <!-- REPAIRS -->
+    <section id="repairs">
+      <h1>Repair Requests</h1>
+      <form id="repairForm">
+        <input type="text" id="repairDetails" placeholder="Details" required>
+        <input type="datetime-local" id="repairDate" required>
+        <select id="repairStatus">
+          <option>Not Started</option>
+          <option>In Progress</option>
+          <option>Complete</option>
+        </select>
+        <input type="file" id="repairFile" accept=".jpg,.jpeg,.pdf">
+        <button type="submit">Save Repair Request</button>
+      </form>
+      <ul id="repairList"></ul>
+    </section>
 
-    <label for="genUpload">Upload Documents (JPEG, JPG, PDF)</label>
-    <input type="file" id="genUpload" name="genUpload[]" accept=".jpeg,.jpg,.pdf" multiple>
+    <!-- PAYMENTS -->
+    <section id="payments">
+      <h1>Rental Payment History</h1>
+      <form id="paymentForm">
+        <input type="text" id="paymentTenant" placeholder="Tenant Name" required>
+        <input type="number" id="paymentAmount" placeholder="Amount" required>
+        <input type="date" id="paymentDate" required>
+        <input type="file" id="paymentFile" accept=".jpg,.jpeg,.pdf">
+        <button type="submit">Save Payment</button>
+      </form>
+      <ul id="paymentList"></ul>
+    </section>
 
-    <button type="submit">Submit</button>
-  </form>
-</div>
+    <!-- PROPERTIES -->
+    <section id="properties">
+      <h1>Properties</h1>
+      <form id="propertyForm">
+        <input type="text" id="propertyAddress" placeholder="Address" required>
+        <input type="text" id="propertyUnit" placeholder="Unit">
+        <input type="text" id="propertyNotes" placeholder="Notes">
+        <input type="file" id="propertyFile" accept=".jpg,.jpeg,.pdf">
+        <button type="submit">Save Property</button>
+      </form>
+      <ul id="propertyList"></ul>
+    </section>
 
-<!-- Financial Tab -->
-<div id="Financial" class="tabcontent">
-  <h3>Financial Information</h3>
-  <form action="/submit-financial" method="POST" enctype="multipart/form-data">
-    <label for="finIncome">Annual Income</label>
-    <input type="number" id="finIncome" name="finIncome" required>
+    <!-- TENANTS -->
+    <section id="tenants">
+      <h1>Tenants</h1>
+      <form id="tenantForm">
+        <input type="text" id="tenantName" placeholder="Name" required>
+        <input type="email" id="tenantEmail" placeholder="Email">
+        <input type="tel" id="tenantPhone" placeholder="Phone">
+        <input type="file" id="tenantFile" accept=".jpg,.jpeg,.pdf">
+        <button type="submit">Save Tenant</button>
+      </form>
+      <ul id="tenantList"></ul>
+    </section>
 
-    <label for="finDebt">Current Debts</label>
-    <input type="text" id="finDebt" name="finDebt">
+    <!-- CONTRACTS -->
+    <section id="contracts">
+      <h1>Contracts</h1>
+      <form id="contractForm">
+        <input type="text" id="contractTenant" placeholder="Tenant" required>
+        <input type="text" id="contractProperty" placeholder="Property" required>
+        <input type="date" id="contractStart" required>
+        <input type="date" id="contractEnd" required>
+        <input type="file" id="contractFile" accept=".jpg,.jpeg,.pdf">
+        <button type="submit">Save Contract</button>
+      </form>
+      <ul id="contractList"></ul>
+    </section>
+  </div>
 
-    <label for="finUpload">Upload Financial Docs (JPEG, JPG, PDF)</label>
-    <input type="file" id="finUpload" name="finUpload[]" accept=".jpeg,.jpg,.pdf" multiple>
+  <script>
+    const ADMIN_EMAIL = "teskerealtygroup@gmail.com";
+    const ADMIN_PASS = "admin";
 
-    <button type="submit">Submit</button>
-  </form>
-</div>
+    function checkLogin() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("portal").style.display = "block";
+        updateDashboard();
+      } else {
+        document.getElementById("error").textContent = "Invalid email or password!";
+      }
+    }
 
-<!-- Legal Tab -->
-<div id="Legal" class="tabcontent">
-  <h3>Legal Information</h3>
-  <form action="/submit-legal" method="POST" enctype="multipart/form-data">
-    <label for="legStatus">Legal Status</label>
-    <input type="text" id="legStatus" name="legStatus">
+    function showTab(tabId) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+      document.querySelectorAll("nav a").forEach(link => link.classList.remove("active"));
+      event.target.classList.add("active");
+      if (tabId === "dashboard") updateDashboard();
+    }
 
-    <label for="legNotes">Additional Notes</label>
-    <textarea id="legNotes" name="legNotes"></textarea>
+    function saveData(key, obj) {
+      let data = JSON.parse(localStorage.getItem(key)) || [];
+      data.push(obj);
+      localStorage.setItem(key, JSON.stringify(data));
+      renderList(key);
+      updateDashboard();
+    }
 
-    <label for="legUpload">Upload Legal Docs (JPEG, JPG, PDF)</label>
-    <input type="file" id="legUpload" name="legUpload[]" accept=".jpeg,.jpg,.pdf" multiple>
+    function renderList(key) {
+      const listId = key + "List";
+      const list = document.getElementById(listId);
+      if (!list) return;
+      list.innerHTML = "";
+      let data = JSON.parse(localStorage.getItem(key)) || [];
+      data.forEach(item => {
+        const li = document.createElement("li");
+        let filePart = item.fileName ? ` | File: ${item.fileName}` : "";
+        li.textContent = Object.values(item).filter(v=>v!=="undefined").join(" | ") + filePart;
+        list.appendChild(li);
+      });
+    }
 
-    <button type="submit">Submit</button>
-  </form>
-</div>
+    // Forms
+    function handleFormSubmit(formId, key, fields) {
+      document.getElementById(formId).onsubmit = e => {
+        e.preventDefault();
+        let obj = {};
+        fields.forEach(f => obj[f] = document.getElementById(f).value);
+        // handle file
+        const fileInput = document.getElementById(fields.find(f=>f.toLowerCase().includes("file")));
+        if (fileInput && fileInput.files.length > 0) {
+          obj.fileName = fileInput.files[0].name;
+        }
+        saveData(key, obj);
+        e.target.reset();
+      };
+    }
 
-<!-- Other Tab -->
-<div id="Other" class="tabcontent">
-  <h3>Other Information</h3>
-  <form action="/submit-other" method="POST" enctype="multipart/form-data">
-    <label for="othDetails">Other Details</label>
-    <textarea id="othDetails" name="othDetails"></textarea>
+    handleFormSubmit("repairForm","repair",["repairDetails","repairDate","repairStatus","repairFile"]);
+    handleFormSubmit("paymentForm","payment",["paymentTenant","paymentAmount","paymentDate","paymentFile"]);
+    handleFormSubmit("propertyForm","property",["propertyAddress","propertyUnit","propertyNotes","propertyFile"]);
+    handleFormSubmit("tenantForm","tenant",["tenantName","tenantEmail","tenantPhone","tenantFile"]);
+    handleFormSubmit("contractForm","contract",["contractTenant","contractProperty","contractStart","contractEnd","contractFile"]);
 
-    <label for="othUpload">Upload Additional Docs (JPEG, JPG, PDF)</label>
-    <input type="file" id="othUpload" name="othUpload[]" accept=".jpeg,.jpg,.pdf" multiple>
+    function updateDashboard() {
+      const repairs = JSON.parse(localStorage.getItem("repair")) || [];
+      const payments = JSON.parse(localStorage.getItem("payment")) || [];
+      const properties = JSON.parse(localStorage.getItem("property")) || [];
+      const tenants = JSON.parse(localStorage.getItem("tenant")) || [];
+      const contracts = JSON.parse(localStorage.getItem("contract")) || [];
 
-    <button type="submit">Submit</button>
-  </form>
-</div>
+      let lastPayment = payments.length ? payments[payments.length-1] : null;
 
-<script>
-function openTab(evt, tabName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-document.getElementsByClassName("tablinks")[0].click();
-</script>
+      document.getElementById("dashboardContent").innerHTML = `
+        <p><strong>Repair Requests:</strong> ${repairs.length}</p>
+        <p><strong>Last Rental Payment:</strong> ${lastPayment ? lastPayment.tenant + " - $" + lastPayment.amount + " on " + lastPayment.date : "None recorded"}</p>
+        <p><strong>Properties:</strong> ${properties.length}</p>
+        <p><strong>Tenants:</strong> ${tenants.length} ${tenants.length ? "(" + tenants.map(t=>t.name).join(", ") + ")" : ""}</p>
+        <p><strong>Active Contracts:</strong> ${contracts.length}</p>
+      `;
+    }
 
+    ["repair","payment","property","tenant","contract"].forEach(renderList);
+  </script>
 </body>
 </html>
