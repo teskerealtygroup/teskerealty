@@ -244,16 +244,23 @@
       const list = document.getElementById(tab + "List");
       const details = document.getElementById(tab.replace(/s$/, '') + "Details")?.value || "";
       const date = document.getElementById(tab.replace(/s$/, '') + "Date")?.value || "";
+      const status = document.getElementById(tab.replace(/s$/, '') + "Status")?.value || "";
       const fileInput = document.getElementById(tab.replace(/s$/, '') + "File");
       const fileName = fileInput?.files[0]?.name || "";
 
       const entry = document.createElement("div");
       entry.className = "entry";
+      entry.dataset.details = details;
+      entry.dataset.date = date;
+      entry.dataset.status = status;
+      entry.dataset.file = fileName;
+
       entry.innerHTML = `
         <p><strong>Details:</strong> ${details}</p>
         ${date ? `<p><strong>Date:</strong> ${date}</p>` : ""}
+        ${status ? `<p><strong>Status:</strong> ${status}</p>` : ""}
         ${fileName ? `<p><strong>File:</strong> ${fileName}</p>` : ""}
-        <button onclick="editEntry(this)">Edit</button>
+        <button onclick="editEntry(this, '${tab}')">Edit</button>
         <button onclick="deleteEntry(this)">Delete</button>
       `;
       list.appendChild(entry);
@@ -261,16 +268,72 @@
       // clear inputs
       if(details) document.getElementById(tab.replace(/s$/, '') + "Details").value = "";
       if(date) document.getElementById(tab.replace(/s$/, '') + "Date").value = "";
+      if(status) document.getElementById(tab.replace(/s$/, '') + "Status").value = "";
       if(fileInput) fileInput.value = "";
     }
 
-    function editEntry(btn) {
+    function editEntry(btn, tab) {
       const entry = btn.parentElement;
-      const detailsText = entry.querySelector("p strong") ? entry.querySelector("p").innerText.replace("Details: ","") : "";
-      const newDetails = prompt("Edit details:", detailsText);
-      if (newDetails !== null) {
-        entry.querySelector("p").innerHTML = "<strong>Details:</strong> " + newDetails;
-      }
+
+      // grab old values
+      const oldDetails = entry.dataset.details || "";
+      const oldDate = entry.dataset.date || "";
+      const oldStatus = entry.dataset.status || "";
+
+      // build editable form inline
+      entry.innerHTML = `
+        <input type="text" value="${oldDetails}" id="editDetails">
+        ${oldDate ? `<input type="datetime-local" value="${oldDate}" id="editDate">` : ""}
+        ${oldStatus ? `
+          <select id="editStatus">
+            <option ${oldStatus==="Not Started"?"selected":""}>Not Started</option>
+            <option ${oldStatus==="In Progress"?"selected":""}>In Progress</option>
+            <option ${oldStatus==="Complete"?"selected":""}>Complete</option>
+          </select>` : ""}
+        <input type="file" id="editFile" accept=".jpg,.jpeg,.pdf">
+        <button onclick="saveEdit(this, '${tab}')">Save</button>
+        <button onclick="cancelEdit(this, '${tab}')">Cancel</button>
+      `;
+    }
+
+    function saveEdit(btn, tab) {
+      const entry = btn.parentElement;
+      const newDetails = entry.querySelector("#editDetails")?.value || "";
+      const newDate = entry.querySelector("#editDate")?.value || "";
+      const newStatus = entry.querySelector("#editStatus")?.value || "";
+      const fileInput = entry.querySelector("#editFile");
+      const fileName = fileInput?.files[0]?.name || entry.dataset.file || "";
+
+      entry.dataset.details = newDetails;
+      entry.dataset.date = newDate;
+      entry.dataset.status = newStatus;
+      entry.dataset.file = fileName;
+
+      entry.innerHTML = `
+        <p><strong>Details:</strong> ${newDetails}</p>
+        ${newDate ? `<p><strong>Date:</strong> ${newDate}</p>` : ""}
+        ${newStatus ? `<p><strong>Status:</strong> ${newStatus}</p>` : ""}
+        ${fileName ? `<p><strong>File:</strong> ${fileName}</p>` : ""}
+        <button onclick="editEntry(this, '${tab}')">Edit</button>
+        <button onclick="deleteEntry(this)">Delete</button>
+      `;
+    }
+
+    function cancelEdit(btn, tab) {
+      const entry = btn.parentElement;
+      const details = entry.dataset.details || "";
+      const date = entry.dataset.date || "";
+      const status = entry.dataset.status || "";
+      const fileName = entry.dataset.file || "";
+
+      entry.innerHTML = `
+        <p><strong>Details:</strong> ${details}</p>
+        ${date ? `<p><strong>Date:</strong> ${date}</p>` : ""}
+        ${status ? `<p><strong>Status:</strong> ${status}</p>` : ""}
+        ${fileName ? `<p><strong>File:</strong> ${fileName}</p>` : ""}
+        <button onclick="editEntry(this, '${tab}')">Edit</button>
+        <button onclick="deleteEntry(this)">Delete</button>
+      `;
     }
 
     function deleteEntry(btn) {
